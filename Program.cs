@@ -40,26 +40,18 @@ namespace Knv.MRLY240314
                 _worker = new BackgroundWorker();
                 _worker.WorkerSupportsCancellation = true;
                 _autoResetEvent = new AutoResetEvent(false);
-                _mainForm.ReadFpgaRegisters += (o, e) =>
-                {
-                    Connection.Instance.ReadRegisters();
-                };
-                _mainForm.RunChainCheck += (o, e) =>
-                {
-                    Connection.Instance?.RunChainCheck();
-                };
+
+                _mainForm.FpgaBypassChanged += (o, enabled) => Connection.Instance?.SetFpgaBypass(enabled);
+                Connection.Instance.TracingEnable = true;
+                Connection.Instance.ConnectionChanged += (o, e) => EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(Connection.Instance.IsOpen));
+                _mainForm.ReadFpgaRegisters += (o, e) => Connection.Instance.ReadRegisters();
+                _mainForm.RunChainCheck += (o, e) => Connection.Instance?.RunChainCheck();
+
                 _mainForm.SetChain += (o, e) =>
                 {
                     Connection.Instance?.SetChain(new byte[0]);
                 };
 
-        
-
-                Connection.Instance.TracingEnable = true;
-                Connection.Instance.ConnectionChanged += (o, e) =>
-                {
-                    EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(Connection.Instance.IsOpen));
-                };
 
 
                 long startUpdateRateTick = DateTime.Now.Ticks;
@@ -170,4 +162,6 @@ namespace Knv.MRLY240314
             }
         }
     }
+
+    
 }

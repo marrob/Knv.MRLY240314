@@ -10,6 +10,13 @@ namespace Knv.MRLY240314.IO
     using System.Globalization;
     using System.ComponentModel;
     using System.CodeDom.Compiler;
+    using static System.Windows.Forms.AxHost;
+
+    public class Status
+    {
+        public UInt32 StatusCode { get; set; }
+        public UInt32 UpTimeSec { get; set; }
+    };
 
     public class Connection
     {
@@ -323,10 +330,38 @@ namespace Knv.MRLY240314.IO
 
             tmp[1] = 0x02;
 
-            string chain_value = BitConverter.ToString(tmp).Replace("-", "");
+
+            //string chain_value = BitConverter.ToString(tmp).Replace("-", "");
+
+            string chain_value = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080";
+
 
             return WriteRead($"CHAIN:SET {chain_value}");
         
+        }
+
+        public void SetFpgaBypass(bool enable)
+        {
+
+            if (enable)
+                WriteRead("BYPASS:ON");
+            else
+                WriteRead("BYPASS:OFF");
+        
+        }
+
+        public Status GetStatus()
+        {
+
+            string response = WriteRead("STA?");
+            var values = response.Split(' ');
+            UInt32 upTimeSec = UInt32.Parse(values[0], NumberStyles.AllowHexSpecifier, CultureInfo.GetCultureInfo("en-US"));
+            UInt32 statusCode = UInt32.Parse(values[1], NumberStyles.AllowHexSpecifier, CultureInfo.GetCultureInfo("en-US"));
+            return new Status() 
+            { 
+                StatusCode = statusCode, 
+                UpTimeSec = upTimeSec
+            };
         }
     }
 }

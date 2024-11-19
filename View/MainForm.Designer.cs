@@ -32,10 +32,11 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonSetChain = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonReadRegisters = new System.Windows.Forms.Button();
             this.knvTracingControl1 = new Knv.MRLY240314.Controls.KnvTracingControl();
-            this.buttonSetChain = new System.Windows.Forms.Button();
+            this.checkBoxFpgaBypass = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +80,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkBoxFpgaBypass);
             this.panel1.Controls.Add(this.buttonSetChain);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.buttonReadRegisters);
@@ -88,9 +90,19 @@
             this.panel1.Size = new System.Drawing.Size(983, 157);
             this.panel1.TabIndex = 0;
             // 
+            // buttonSetChain
+            // 
+            this.buttonSetChain.Location = new System.Drawing.Point(12, 103);
+            this.buttonSetChain.Name = "buttonSetChain";
+            this.buttonSetChain.Size = new System.Drawing.Size(190, 23);
+            this.buttonSetChain.TabIndex = 2;
+            this.buttonSetChain.Text = "Set Chain";
+            this.buttonSetChain.UseVisualStyleBackColor = true;
+            this.buttonSetChain.Click += new System.EventHandler(this.buttonSetChain_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 43);
+            this.button1.Location = new System.Drawing.Point(12, 74);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(190, 23);
             this.button1.TabIndex = 1;
@@ -100,7 +112,7 @@
             // 
             // buttonReadRegisters
             // 
-            this.buttonReadRegisters.Location = new System.Drawing.Point(12, 14);
+            this.buttonReadRegisters.Location = new System.Drawing.Point(12, 45);
             this.buttonReadRegisters.Name = "buttonReadRegisters";
             this.buttonReadRegisters.Size = new System.Drawing.Size(190, 23);
             this.buttonReadRegisters.TabIndex = 0;
@@ -117,15 +129,16 @@
             this.knvTracingControl1.Size = new System.Drawing.Size(983, 294);
             this.knvTracingControl1.TabIndex = 0;
             // 
-            // buttonSetChain
+            // checkBoxFpgaBypass
             // 
-            this.buttonSetChain.Location = new System.Drawing.Point(12, 72);
-            this.buttonSetChain.Name = "buttonSetChain";
-            this.buttonSetChain.Size = new System.Drawing.Size(190, 23);
-            this.buttonSetChain.TabIndex = 2;
-            this.buttonSetChain.Text = "Set Chain";
-            this.buttonSetChain.UseVisualStyleBackColor = true;
-            this.buttonSetChain.Click += new System.EventHandler(this.buttonSetChain_Click);
+            this.checkBoxFpgaBypass.AutoSize = true;
+            this.checkBoxFpgaBypass.Location = new System.Drawing.Point(12, 12);
+            this.checkBoxFpgaBypass.Name = "checkBoxFpgaBypass";
+            this.checkBoxFpgaBypass.Size = new System.Drawing.Size(91, 17);
+            this.checkBoxFpgaBypass.TabIndex = 3;
+            this.checkBoxFpgaBypass.Text = "FPGA Bypass";
+            this.checkBoxFpgaBypass.UseVisualStyleBackColor = true;
+            this.checkBoxFpgaBypass.CheckedChanged += new System.EventHandler(this.checkBoxFpgaBypass_CheckedChanged);
             // 
             // MainForm
             // 
@@ -143,6 +156,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,6 +172,7 @@
         private Controls.KnvTracingControl knvTracingControl1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonSetChain;
+        private System.Windows.Forms.CheckBox checkBoxFpgaBypass;
     }
 }
 

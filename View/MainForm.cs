@@ -12,7 +12,7 @@
         event EventHandler Disposed;
         KnvTracingControl Tracing { get; }
 
-        event EventHandler<int> DutyCylceChanged;
+        event EventHandler<bool> FpgaBypassChanged;
         event EventHandler ReadFpgaRegisters;
         event EventHandler RunChainCheck;
         event EventHandler SetChain;
@@ -28,11 +28,12 @@
 
     public partial class MainForm : Form , IMainForm
     {
-        public event EventHandler<int> DutyCylceChanged;
 
+        
         public event EventHandler ReadFpgaRegisters;
         public event EventHandler RunChainCheck;
         public event EventHandler SetChain;
+        public event EventHandler<bool> FpgaBypassChanged;
 
         public ToolStripItem[] MenuBar
         {
@@ -87,6 +88,11 @@
         private void buttonSetChain_Click(object sender, EventArgs e)
         {
             SetChain.Invoke(this, EventArgs.Empty);
+        }
+
+        private void checkBoxFpgaBypass_CheckedChanged(object sender, EventArgs e)
+        {
+            FpgaBypassChanged?.Invoke(this, checkBoxFpgaBypass.Checked);
         }
     }
 }
