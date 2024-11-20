@@ -269,7 +269,7 @@ namespace Knv.MRLY240314.IO
         /// <returns>pl. 1.0.0.0</returns>
         public string GetVersion()
         {
-            var resp = WriteRead("*IDN?");
+            var resp = WriteRead("VER?");
             if (resp == null)
                 return "n/a";
             else
@@ -305,7 +305,7 @@ namespace Knv.MRLY240314.IO
         /// <returns></returns>
         public string WhoIs()
         {
-            var resp = WriteRead("VER?");
+            var resp = WriteRead("*IDN?");
             if (resp == null)
                 return "n/a";
             else
@@ -340,6 +340,11 @@ namespace Knv.MRLY240314.IO
         
         }
 
+        public string SetChain(string hexastring)
+        {
+            return WriteRead($"CHAIN:SET {hexastring}");
+        }
+
         public void SetFpgaBypass(bool enable)
         {
 
@@ -352,7 +357,6 @@ namespace Knv.MRLY240314.IO
 
         public Status GetStatus()
         {
-
             string response = WriteRead("STA?");
             var values = response.Split(' ');
             UInt32 upTimeSec = UInt32.Parse(values[0], NumberStyles.AllowHexSpecifier, CultureInfo.GetCultureInfo("en-US"));
@@ -362,6 +366,13 @@ namespace Knv.MRLY240314.IO
                 StatusCode = statusCode, 
                 UpTimeSec = upTimeSec
             };
+        }
+
+        public double GetOhms()
+        { 
+            var ohmsStr = WriteRead("OHMS?");
+            var ohms = double.Parse(ohmsStr, CultureInfo.GetCultureInfo("en-US"));
+            return ohms;
         }
     }
 }

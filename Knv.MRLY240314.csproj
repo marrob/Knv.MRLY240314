@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConstants.cs" />
+    <Compile Include="CardTester.cs" />
     <Compile Include="Commands\ComPortSelectCommand.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -73,6 +74,7 @@
       <DependentUpon>KnvTracingControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\RichTextBoxExtensions.cs" />
+    <Compile Include="E8287A.cs" />
     <Compile Include="Events\ConnectionChangedAppEvent.cs" />
     <Compile Include="Events\EventAggregator.cs" />
     <Compile Include="Events\ShowAppEvent.cs" />

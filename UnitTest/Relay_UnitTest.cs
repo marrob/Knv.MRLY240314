@@ -6,7 +6,9 @@ namespace Knv.MRLY240314.UnitTest
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
+    using Knv.MRLY240314.IO;
     using NUnit.Framework;
 
     [TestFixture]
@@ -27,6 +29,42 @@ namespace Knv.MRLY240314.UnitTest
         public void SetTwoRelyByController()
         {
             var e8287A = new E8287A[128];
+        }
+
+
+        [Test]
+        public void Check()
+        {
+            var tester = new CardTester();
+            var rc = new RelayController();
+            var con = new Connection();
+
+            con.Open("COM11");
+
+            string name = con.WhoIs();
+            Assert.AreEqual("MRLY240314.FW", name);
+            con.SetFpgaBypass(true);
+
+            foreach (var caseItem in tester.CaseCollection)
+            {
+                Console.WriteLine("Test Start");
+
+                foreach (var relay in caseItem.SwichedOnRelays)
+                    rc.SetRelayState((int)relay, true);
+
+
+                var chainState = rc.ToHexString();
+                con.SetChain(chainState);
+                Thread.Sleep(500);
+                caseItem.Value = con.GetOhms();
+
+                Console.WriteLine(chainState);
+
+
+                rc.Reset();
+                Console.WriteLine("Test Completed");
+            }
+            con.Close();
         }
     }
 }

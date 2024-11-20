@@ -7,14 +7,6 @@ using System.Threading.Tasks;
 namespace Knv.MRLY240314
 {
 
-    public enum E8287A
-    { 
-        K8 = 439
-    
-    };
-       
-
-
     public class RelayController
     {
         private readonly byte[] relayBytes;
