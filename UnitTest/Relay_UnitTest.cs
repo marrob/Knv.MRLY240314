@@ -45,25 +45,24 @@ namespace Knv.MRLY240314.UnitTest
             Assert.AreEqual("MRLY240314.FW", name);
             con.SetFpgaBypass(true);
 
+            Console.WriteLine("Test Start");
             foreach (var caseItem in tester.CaseCollection)
             {
-                Console.WriteLine("Test Start");
 
                 foreach (var relay in caseItem.SwichedOnRelays)
                     rc.SetRelayState((int)relay, true);
-
 
                 var chainState = rc.ToHexString();
                 con.SetChain(chainState);
                 Thread.Sleep(500);
                 caseItem.Value = con.GetOhms();
 
-                Console.WriteLine(chainState);
-
+                Console.WriteLine($"{ caseItem.Name }: { caseItem.Value }");
+                //Console.WriteLine(chainState);
 
                 rc.Reset();
-                Console.WriteLine("Test Completed");
             }
+            Console.WriteLine("Test Completed");
             con.Close();
         }
     }
