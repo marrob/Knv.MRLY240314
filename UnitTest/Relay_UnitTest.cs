@@ -3,11 +3,7 @@
 namespace Knv.MRLY240314.UnitTest
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
     using Knv.MRLY240314.IO;
     using NUnit.Framework;
 
@@ -45,23 +41,35 @@ namespace Knv.MRLY240314.UnitTest
             Assert.AreEqual("MRLY240314.FW", name);
             con.SetFpgaBypass(true);
 
-            Console.WriteLine("Test Start");
-            foreach (var caseItem in tester.CaseCollection)
-            {
+            tester.MakeTestCases();
 
+            Console.WriteLine("Test Start");
+
+            foreach (var caseItem in tester.Cases)
+            {
                 foreach (var relay in caseItem.SwichedOnRelays)
                     rc.SetRelayState((int)relay, true);
 
                 var chainState = rc.ToHexString();
                 con.SetChain(chainState);
-                Thread.Sleep(500);
+                Thread.Sleep(20);
                 caseItem.Value = con.GetOhms();
 
-                Console.WriteLine($"{ caseItem.Name }: { caseItem.Value }");
-                //Console.WriteLine(chainState);
-
+            
                 rc.Reset();
             }
+
+
+
+            for (int i = 0; i< tester.Cases.Count; i+= 2)
+            {
+                string restult = $"{tester.Cases[i].RelayName}; {tester.Cases[i].Value}; {tester.Cases[i+1].Value}";
+                Console.WriteLine(restult);
+            }
+
+
+             
+
             Console.WriteLine("Test Completed");
             con.Close();
         }
