@@ -281,7 +281,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB1_R{row}",
+                    RelayName = $"AB1_R{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -296,7 +296,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB1_R{row}",
+                    RelayName = $"AB1_R{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -314,7 +314,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB2_R{row}",
+                    RelayName = $"AB2_R{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -330,7 +330,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB2_R{row}",
+                    RelayName = $"AB2_R{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -348,7 +348,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB3_R{row}",
+                    RelayName = $"AB3_R{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -363,7 +363,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB3_R{row}",
+                    RelayName = $"AB3_R{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -381,7 +381,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB4_R{row}",
+                    RelayName = $"AB4_R{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -396,7 +396,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB4_R{row}",
+                    RelayName = $"AB4_R{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -410,11 +410,11 @@ namespace Knv.MRLY240314
             }
 
             //--- AUX_R 1..40 ---
-            for (int row = 0; row < E8287aInfo.InstrCount; row++)
+            for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AUX_R{row}",
+                    RelayName = $"AUX_R{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -430,7 +430,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AUX_R{row}",
+                    RelayName = $"AUX_R{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -449,7 +449,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB1_I{row}",
+                    RelayName = $"AB1_I{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -464,7 +464,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB1_I{row}",
+                    RelayName = $"AB1_I{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -482,7 +482,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB2_I{row}",
+                    RelayName = $"AB2_I{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -497,7 +497,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB2_I{row}",
+                    RelayName = $"AB2_I{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -515,7 +515,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB3_I{row}",
+                    RelayName = $"AB3_I{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -530,7 +530,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB3_I{row}",
+                    RelayName = $"AB3_I{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -548,7 +548,7 @@ namespace Knv.MRLY240314
             {
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB4_I{row}",
+                    RelayName = $"AB4_I{row + 1}",
                     CaseName = "Close",
                     SwichedOnRelays = new List<E8287A>()
                     {
@@ -563,7 +563,7 @@ namespace Knv.MRLY240314
 
                 Cases.Add(new CaseItem()
                 {
-                    RelayName = $"AB4_I{row}",
+                    RelayName = $"AB4_I{row + 1}",
                     CaseName = "Open",
                     SwichedOnRelays = new List<E8287A>()
                     {
