@@ -10,7 +10,36 @@
         public const int RowsCount = 40;
         public const int InstrCount = 24;
 
-
+        /// <summary>
+        /// Valamelyik instruments sort a UUT-hez lehet kapcsolni az alábbi relékkel 
+        /// </summary>
+        public static E8287A[] UutRows = new E8287A[]
+        {
+            E8287A.UUT_I1,
+            E8287A.UUT_I2,
+            E8287A.UUT_I3,
+            E8287A.UUT_I4,
+            E8287A.UUT_I5,
+            E8287A.UUT_I6,
+            E8287A.UUT_I7,
+            E8287A.UUT_I8,
+            E8287A.UUT_I9,
+            E8287A.UUT_I10,
+            E8287A.UUT_I11,
+            E8287A.UUT_I12,
+            E8287A.UUT_I13,
+            E8287A.UUT_I14,
+            E8287A.UUT_I15,
+            E8287A.UUT_I16,
+            E8287A.UUT_I17,
+            E8287A.UUT_I18, 
+            E8287A.UUT_I19,
+            E8287A.UUT_I20,
+            E8287A.UUT_I21,
+            E8287A.UUT_I22,
+            E8287A.UUT_I23,
+            E8287A.UUT_I24,
+        };
 
         /// <summary>
         /// Minden sorhoz kapcsolódik egy AUX relé, ezek ebben alistában vannak...
@@ -57,6 +86,37 @@
             E8287A.AUX_R38,
             E8287A.AUX_R39,
             E8287A.AUX_R40,
+        };
+
+        /// <summary>
+        /// ABUS1-et kapcsolja a listában lévő instrument sorhoz
+        /// </summary>
+        public static E8287A[] Abus1Instr = new E8287A[]
+        {
+            E8287A.AB1_I1,
+            E8287A.AB1_I2,
+            E8287A.AB1_I3,
+            E8287A.AB1_I4,
+            E8287A.AB1_I5,
+            E8287A.AB1_I6,
+            E8287A.AB1_I7,
+            E8287A.AB1_I8,
+            E8287A.AB1_I9,
+            E8287A.AB1_I10,
+            E8287A.AB1_I11,
+            E8287A.AB1_I12,
+            E8287A.AB1_I13,
+            E8287A.AB1_I14,
+            E8287A.AB1_I15,
+            E8287A.AB1_I16,
+            E8287A.AB1_I17,
+            E8287A.AB1_I18,
+            E8287A.AB1_I19,
+            E8287A.AB1_I20,
+            E8287A.AB1_I21,
+            E8287A.AB1_I22,
+            E8287A.AB1_I23,
+            E8287A.AB1_I24
         };
 
         /// <summary>
@@ -107,6 +167,37 @@
         };
 
         /// <summary>
+        /// ABUS2-őt kapcsolja a listában lévő instrument sorhoz
+        /// </summary>
+        public static E8287A[] Abus2Instr = new E8287A[]
+        {
+            E8287A.AB2_I1,
+            E8287A.AB2_I2,
+            E8287A.AB2_I3,
+            E8287A.AB2_I4,
+            E8287A.AB2_I5,
+            E8287A.AB2_I6,
+            E8287A.AB2_I7,
+            E8287A.AB2_I8,
+            E8287A.AB2_I9,
+            E8287A.AB2_I10,
+            E8287A.AB2_I11,
+            E8287A.AB2_I12,
+            E8287A.AB2_I13,
+            E8287A.AB2_I14,
+            E8287A.AB2_I15,
+            E8287A.AB2_I16,
+            E8287A.AB2_I17,
+            E8287A.AB2_I18,
+            E8287A.AB2_I19,
+            E8287A.AB2_I20,
+            E8287A.AB2_I21,
+            E8287A.AB2_I22,
+            E8287A.AB2_I23,
+            E8287A.AB2_I24
+        };
+
+        /// <summary>
         /// ABUS2-et kapcsolja a listában szereplő sorokhoz
         /// </summary>
         public static E8287A[] Abus2Rows = new E8287A[]
@@ -151,6 +242,37 @@
             E8287A.AB2_R38,
             E8287A.AB2_R39,
             E8287A.AB2_R40,
+        };
+
+        /// <summary>
+        /// ABUS3-őt kapcsolja a listában lévő instrument sorhoz
+        /// </summary>
+        public static E8287A[] Abus3Instr = new E8287A[]
+        {
+            E8287A.AB3_I1,
+            E8287A.AB3_I2,
+            E8287A.AB3_I3,
+            E8287A.AB3_I4,
+            E8287A.AB3_I5,
+            E8287A.AB3_I6,
+            E8287A.AB3_I7,
+            E8287A.AB3_I8,
+            E8287A.AB3_I9,
+            E8287A.AB3_I10,
+            E8287A.AB3_I11,
+            E8287A.AB3_I12,
+            E8287A.AB3_I13,
+            E8287A.AB3_I14,
+            E8287A.AB3_I15,
+            E8287A.AB3_I16,
+            E8287A.AB3_I17,
+            E8287A.AB3_I18,
+            E8287A.AB3_I19,
+            E8287A.AB3_I20,
+            E8287A.AB3_I21,
+            E8287A.AB3_I22,
+            E8287A.AB3_I23,
+            E8287A.AB3_I24
         };
 
         /// <summary>
@@ -201,6 +323,37 @@
         };
 
         /// <summary>
+        /// ABUS4-et kapcsolja a listában lévő instrument sorhoz
+        /// </summary>
+        public static E8287A[] Abus4Instr = new E8287A[]
+        {
+            E8287A.AB4_I1,
+            E8287A.AB4_I2,
+            E8287A.AB4_I3,
+            E8287A.AB4_I4,
+            E8287A.AB4_I5,
+            E8287A.AB4_I6,
+            E8287A.AB4_I7,
+            E8287A.AB4_I8,
+            E8287A.AB4_I9,
+            E8287A.AB4_I10,
+            E8287A.AB4_I11,
+            E8287A.AB4_I12,
+            E8287A.AB4_I13,
+            E8287A.AB4_I14,
+            E8287A.AB4_I15,
+            E8287A.AB4_I16,
+            E8287A.AB4_I17,
+            E8287A.AB4_I18,
+            E8287A.AB4_I19,
+            E8287A.AB4_I20,
+            E8287A.AB4_I21,
+            E8287A.AB4_I22,
+            E8287A.AB4_I23,
+            E8287A.AB4_I24
+        };
+
+        /// <summary>
         /// ABUS4-at kapcsolja a listában szereplő sorokhoz
         /// </summary>
         public static E8287A[] Abus4Rows = new E8287A[]
@@ -248,130 +401,36 @@
         };
 
         /// <summary>
-        /// ABUS1-et kapcsolja a listában lévő instrument sorhoz
+        /// Miden instrument sorhoz tartozik egy Diag relé ami a csatlakozó vagy az ellenállás mérő között vált
+        /// Alaphelyzetben a RDG_I[1..24] relék a sort a csatlakozóra kapcsolják.
         /// </summary>
-        public static E8287A[] Abus1Instr = new E8287A[]
+        public static E8287A[] DiagInstr = new E8287A[]
         {
-            E8287A.AB1_I1,
-            E8287A.AB1_I2,
-            E8287A.AB1_I3,
-            E8287A.AB1_I4,
-            E8287A.AB1_I5,
-            E8287A.AB1_I6,
-            E8287A.AB1_I7,
-            E8287A.AB1_I8,
-            E8287A.AB1_I9,
-            E8287A.AB1_I10,
-            E8287A.AB1_I11,
-            E8287A.AB1_I12,
-            E8287A.AB1_I13,
-            E8287A.AB1_I14,
-            E8287A.AB1_I15,
-            E8287A.AB1_I16,
-            E8287A.AB1_I17,
-            E8287A.AB1_I18,
-            E8287A.AB1_I19,
-            E8287A.AB1_I20,
-            E8287A.AB1_I21,
-            E8287A.AB1_I22,
-            E8287A.AB1_I23,
-            E8287A.AB1_I24
+            E8287A.RDG_I1,
+            E8287A.RDG_I2,
+            E8287A.RDG_I3,
+            E8287A.RDG_I4,
+            E8287A.RDG_I5,
+            E8287A.RDG_I6,
+            E8287A.RDG_I7,
+            E8287A.RDG_I8,
+            E8287A.RDG_I9,
+            E8287A.RDG_I10,
+            E8287A.RDG_I11,
+            E8287A.RDG_I12,
+            E8287A.RDG_I13,
+            E8287A.RDG_I14,
+            E8287A.RDG_I15,
+            E8287A.RDG_I16,
+            E8287A.RDG_I17,
+            E8287A.RDG_I18,
+            E8287A.RDG_I19,
+            E8287A.RDG_I20,
+            E8287A.RDG_I21,
+            E8287A.RDG_I22,
+            E8287A.RDG_I23,
+            E8287A.RDG_I24
         };
-
-        /// <summary>
-        /// ABUS2-őt kapcsolja a listában lévő instrument sorhoz
-        /// </summary>
-        public static E8287A[] Abus2Instr = new E8287A[]
-        {
-            E8287A.AB2_I1,
-            E8287A.AB2_I2,
-            E8287A.AB2_I3,
-            E8287A.AB2_I4,
-            E8287A.AB2_I5,
-            E8287A.AB2_I6,
-            E8287A.AB2_I7,
-            E8287A.AB2_I8,
-            E8287A.AB2_I9,
-            E8287A.AB2_I10,
-            E8287A.AB2_I11,
-            E8287A.AB2_I12,
-            E8287A.AB2_I13,
-            E8287A.AB2_I14,
-            E8287A.AB2_I15,
-            E8287A.AB2_I16,
-            E8287A.AB2_I17,
-            E8287A.AB2_I18,
-            E8287A.AB2_I19,
-            E8287A.AB2_I20,
-            E8287A.AB2_I21,
-            E8287A.AB2_I22,
-            E8287A.AB2_I23,
-            E8287A.AB2_I24
-        };
-
-        /// <summary>
-        /// ABUS3-őt kapcsolja a listában lévő instrument sorhoz
-        /// </summary>
-        public static E8287A[] Abus3Instr = new E8287A[]
-        {
-            E8287A.AB3_I1,
-            E8287A.AB3_I2,
-            E8287A.AB3_I3,
-            E8287A.AB3_I4,
-            E8287A.AB3_I5,
-            E8287A.AB3_I6,
-            E8287A.AB3_I7,
-            E8287A.AB3_I8,
-            E8287A.AB3_I9,
-            E8287A.AB3_I10,
-            E8287A.AB3_I11,
-            E8287A.AB3_I12,
-            E8287A.AB3_I13,
-            E8287A.AB3_I14,
-            E8287A.AB3_I15,
-            E8287A.AB3_I16,
-            E8287A.AB3_I17,
-            E8287A.AB3_I18,
-            E8287A.AB3_I19,
-            E8287A.AB3_I20,
-            E8287A.AB3_I21,
-            E8287A.AB3_I22,
-            E8287A.AB3_I23,
-            E8287A.AB3_I24
-        };
-
-
-        /// <summary>
-        /// ABUS4-et kapcsolja a listában lévő instrument sorhoz
-        /// </summary>
-        public static E8287A[] Abus4Instr = new E8287A[]
-        {
-            E8287A.AB4_I1,
-            E8287A.AB4_I2,
-            E8287A.AB4_I3,
-            E8287A.AB4_I4,
-            E8287A.AB4_I5,
-            E8287A.AB4_I6,
-            E8287A.AB4_I7,
-            E8287A.AB4_I8,
-            E8287A.AB4_I9,
-            E8287A.AB4_I10,
-            E8287A.AB4_I11,
-            E8287A.AB4_I12,
-            E8287A.AB4_I13,
-            E8287A.AB4_I14,
-            E8287A.AB4_I15,
-            E8287A.AB4_I16,
-            E8287A.AB4_I17,
-            E8287A.AB4_I18,
-            E8287A.AB4_I19,
-            E8287A.AB4_I20,
-            E8287A.AB4_I21,
-            E8287A.AB4_I22,
-            E8287A.AB4_I23,
-            E8287A.AB4_I24
-        };
-
 
         /// <summary>
         /// Miden sorhoz tartozik egy Diag relé ami a csatlakozó vagy az ellenállás mérő között vált
@@ -419,40 +478,6 @@
             E8287A.RDG_R38,
             E8287A.RDG_R39,
             E8287A.RDG_R40,
-        };
-
-
-
-        /// <summary>
-        /// Miden instrument sorhoz tartozik egy Diag relé ami a csatlakozó vagy az ellenállás mérő között vált
-        /// Alaphelyzetben a RDG_I[1..24] relék a sort a csatlakozóra kapcsolják.
-        /// </summary>
-        public static E8287A[] DiagInstr = new E8287A[]
-        {
-            E8287A.RDG_I1,
-            E8287A.RDG_I2,
-            E8287A.RDG_I3,
-            E8287A.RDG_I4,
-            E8287A.RDG_I5,
-            E8287A.RDG_I6,
-            E8287A.RDG_I7,
-            E8287A.RDG_I8,
-            E8287A.RDG_I9,
-            E8287A.RDG_I10,
-            E8287A.RDG_I11,
-            E8287A.RDG_I12,
-            E8287A.RDG_I13,
-            E8287A.RDG_I14,
-            E8287A.RDG_I15,
-            E8287A.RDG_I16,
-            E8287A.RDG_I17,
-            E8287A.RDG_I18,
-            E8287A.RDG_I19,
-            E8287A.RDG_I20,
-            E8287A.RDG_I21,
-            E8287A.RDG_I22,
-            E8287A.RDG_I23,
-            E8287A.RDG_I24
         };
 
         /// <summary>
@@ -503,8 +528,6 @@
             E8287A.ADG_R39,
             E8287A.ADG_R40,
         };
-
-
 
     }
 

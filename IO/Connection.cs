@@ -368,7 +368,7 @@ namespace Knv.MRLY240314.IO
             };
         }
 
-        public double GetOhms()
+        public double MeasureResistance()
         { 
             var ohmsStr = WriteRead("OHMS?");
             var ohms = double.Parse(ohmsStr, CultureInfo.GetCultureInfo("en-US"));

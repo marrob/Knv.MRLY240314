@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Knv.Fan.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Knv.MRLY240314.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="SeriaPortName" Type="System.String" Scope="User">
@@ -10,6 +10,30 @@
     </Setting>
     <Setting Name="ConnectOnStart" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AlwaysOnTop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MeasurementDelayTimeMs" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">250</Value>
+    </Setting>
+    <Setting Name="OpenLowLimit" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">250</Value>
+    </Setting>
+    <Setting Name="OpenHighLimit" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
+    <Setting Name="CloseLowLimit" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="CloseHighLimit" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="BypassResistorLowLimit" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">209</Value>
+    </Setting>
+    <Setting Name="BypassResistorHighLimit" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">231</Value>
     </Setting>
   </Settings>
 </SettingsFile>

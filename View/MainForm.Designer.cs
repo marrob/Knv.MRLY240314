@@ -32,16 +32,20 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBoxFpgaBypass = new System.Windows.Forms.CheckBox();
             this.buttonSetChain = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonReadRegisters = new System.Windows.Forms.Button();
             this.knvTracingControl1 = new Knv.MRLY240314.Controls.KnvTracingControl();
-            this.checkBoxFpgaBypass = new System.Windows.Forms.CheckBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -80,6 +84,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.tabControl1);
             this.panel1.Controls.Add(this.checkBoxFpgaBypass);
             this.panel1.Controls.Add(this.buttonSetChain);
             this.panel1.Controls.Add(this.button1);
@@ -89,6 +94,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(983, 157);
             this.panel1.TabIndex = 0;
+            // 
+            // checkBoxFpgaBypass
+            // 
+            this.checkBoxFpgaBypass.AutoSize = true;
+            this.checkBoxFpgaBypass.Location = new System.Drawing.Point(12, 12);
+            this.checkBoxFpgaBypass.Name = "checkBoxFpgaBypass";
+            this.checkBoxFpgaBypass.Size = new System.Drawing.Size(91, 17);
+            this.checkBoxFpgaBypass.TabIndex = 3;
+            this.checkBoxFpgaBypass.Text = "FPGA Bypass";
+            this.checkBoxFpgaBypass.UseVisualStyleBackColor = true;
+            this.checkBoxFpgaBypass.CheckedChanged += new System.EventHandler(this.checkBoxFpgaBypass_CheckedChanged);
             // 
             // buttonSetChain
             // 
@@ -129,16 +145,35 @@
             this.knvTracingControl1.Size = new System.Drawing.Size(983, 294);
             this.knvTracingControl1.TabIndex = 0;
             // 
-            // checkBoxFpgaBypass
+            // tabControl1
             // 
-            this.checkBoxFpgaBypass.AutoSize = true;
-            this.checkBoxFpgaBypass.Location = new System.Drawing.Point(12, 12);
-            this.checkBoxFpgaBypass.Name = "checkBoxFpgaBypass";
-            this.checkBoxFpgaBypass.Size = new System.Drawing.Size(91, 17);
-            this.checkBoxFpgaBypass.TabIndex = 3;
-            this.checkBoxFpgaBypass.Text = "FPGA Bypass";
-            this.checkBoxFpgaBypass.UseVisualStyleBackColor = true;
-            this.checkBoxFpgaBypass.CheckedChanged += new System.EventHandler(this.checkBoxFpgaBypass_CheckedChanged);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(273, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(640, 151);
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(632, 125);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(192, 74);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -157,6 +192,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,6 +209,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonSetChain;
         private System.Windows.Forms.CheckBox checkBoxFpgaBypass;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 

@@ -1,37 +1,104 @@
 ﻿
 namespace Knv.MRLY240314
 {
+    using Knv.MRLY240314.Properties;
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
 
-    public class CaseItem
-    { 
+
+
+    /// <summary>
+    /// A rlékártyán lévő egy relé teszjének a lírása.
+    /// </summary>
+    public class stepItem
+    {
+
         public string RelayName { get; set; }
         public string CaseName { get; set; }
         public List<E8287A> SwichedOnRelays { get; set; }
-        public string Comment { get; set; }
+        public string Description { get; set; }
+
+        public bool Executed { get; set; }
         public double LowLimit { get; set; }
         public double HighLimit { get; set; }
-        public double Value { get; set; }    
-    }
+        public double Measured { get; set; }
+        public string Unit { get; set; }
 
-    internal class CardTester
-    {
-        public List<CaseItem> Cases  { get; set; }
+        /// <summary>
+        /// 55db relémeghatjó ic-van (TPIC) ezt kövzevelenül elérjük a hw-val
+        /// </summary>
+        private readonly int relayCount = 55 * 8;
+        byte[] relayBytes;
 
-        public CardTester()
+        /// <summary>
+        /// Az állapothoz tartozó meghuzott relék állapotát adja visza, amit már a hardwernek lehet küldeni...
+        /// 
+        /// Az E8287A.K8 - a láncban az első TPIC D7-es pozicójában van, mivel a legisebb helyétérkűvel kezdjük siftelést ő kerül a legulsó indexre.
+        /// E8287A.K8: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080
+        /// 
+        /// RDG_R33 - a legutolsó TPIC- D0-ás poziciójában van
+        /// E8287A.RDG_R33:01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetStringOfRelayChain()
         {
-             Cases = new List<CaseItem>();
+            if (relayCount <= 0)
+                throw new ArgumentException("Relay count must be greater than zero.");
+
+            if (relayCount % 8 != 0)
+                throw new ArgumentException("Relay count must be div by 8");
+
+            relayBytes = new byte[relayCount / 8]; // Bájtszám kiszámítása
+
+            foreach (var relay in SwichedOnRelays)
+                SetRelayState(relay);
+
+            return BitConverter.ToString(relayBytes).Replace("-", "");
         }
 
-        public void MakeTestCases()
+        // Relé állapot beállítása a bájttömbe
+        private void SetRelayState(E8287A rly_index)
+        {
+            int index = (int)rly_index;
+
+            if (index < 0 || index >= relayCount)
+                throw new IndexOutOfRangeException($"Relay index {index} is out of range (0-{relayCount - 1}).");
+
+            int byteIndex = index / 8;
+            int bitIndex = index % 8;
+
+            relayBytes[byteIndex] |= (byte)(1 << bitIndex);
+        }
+    }
+
+    internal class E8782A_CardTester
+    {
+        public List<stepItem> Steps  { get; set; }
+        public int _caseIndex = 0;
+        public E8782A_CardTester()
+        {
+             Steps = new List<stepItem>();
+        }
+
+        /// <summary>
+        /// A kártáyn lévő relékhez tartozó tesztestesetek létrehozása.
+        /// Alapvetően minden relét nyitott és zárt állásban tesztülnk
+        /// Több relét is meg kell húzni egy relé teszteléséshez...
+        /// </summary>
+        public void MakeTestSteps()
         {
 
             //K1 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K1",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -44,10 +111,13 @@ namespace Knv.MRLY240314
             });
 
             //K1 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K1",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.BypassResistorLowLimit,
+                HighLimit = Settings.Default.BypassResistorHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -59,10 +129,13 @@ namespace Knv.MRLY240314
             });
 
             //K2 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K2",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -75,10 +148,13 @@ namespace Knv.MRLY240314
             });
 
             //K2 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K2",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.BypassResistorLowLimit,
+                HighLimit = Settings.Default.BypassResistorHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -90,10 +166,13 @@ namespace Knv.MRLY240314
             });
 
             //K3 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K3",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -106,10 +185,13 @@ namespace Knv.MRLY240314
             });
 
             //K3 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K3",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.BypassResistorLowLimit,
+                HighLimit = Settings.Default.BypassResistorHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -121,10 +203,13 @@ namespace Knv.MRLY240314
             });
 
             //K4 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K4",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -137,10 +222,13 @@ namespace Knv.MRLY240314
             });
 
             //K4 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K4",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.BypassResistorLowLimit,
+                HighLimit = Settings.Default.BypassResistorHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -153,10 +241,13 @@ namespace Knv.MRLY240314
 
 
             //K5 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K5",
-                CaseName = "Close",
+                CaseName = "Close",  
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -169,10 +260,13 @@ namespace Knv.MRLY240314
             });
 
             //K5 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K5",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.OpenLowLimit,
+                HighLimit = Settings.Default.OpenHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -184,10 +278,13 @@ namespace Knv.MRLY240314
             });
 
             //K6 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K6",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -200,10 +297,13 @@ namespace Knv.MRLY240314
             });
 
             //K6 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K6",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.OpenLowLimit,
+                HighLimit = Settings.Default.OpenHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -215,10 +315,13 @@ namespace Knv.MRLY240314
             });
 
             //K7 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K7",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -231,10 +334,13 @@ namespace Knv.MRLY240314
             });
 
             //K7 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K7",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.OpenLowLimit,
+                HighLimit = Settings.Default.OpenHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -246,10 +352,13 @@ namespace Knv.MRLY240314
             });
 
             //K8 - Close
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K8",
                 CaseName = "Close",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -262,10 +371,13 @@ namespace Knv.MRLY240314
             });
 
             //K8 - Open
-            Cases.Add(new CaseItem()
+            Steps.Add(new stepItem()
             {
                 RelayName = $"K8",
                 CaseName = "Open",
+                Unit = "OHM",
+                LowLimit = Settings.Default.OpenLowLimit,
+                HighLimit = Settings.Default.OpenHighLimit,
                 SwichedOnRelays = new List<E8287A>()
                 {
                     E8287A.RDG_I1,
@@ -279,10 +391,13 @@ namespace Knv.MRLY240314
             //--- AB1_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB1_R{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -294,10 +409,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB1_R{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -312,10 +430,13 @@ namespace Knv.MRLY240314
             //--- AB2_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB2_R{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -327,11 +448,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB2_R{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -346,10 +469,13 @@ namespace Knv.MRLY240314
             //--- AB3_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB3_R{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -361,10 +487,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB3_R{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -379,10 +508,13 @@ namespace Knv.MRLY240314
             //--- AB4_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB4_R{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -394,10 +526,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB4_R{row + 1}",
-                    CaseName = "Close",
+                    CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -412,10 +547,13 @@ namespace Knv.MRLY240314
             //--- AUX_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AUX_R{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -428,10 +566,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AUX_R{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287A.RDG_I1,
@@ -447,10 +588,13 @@ namespace Knv.MRLY240314
             //--- AB1_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB1_I{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -462,10 +606,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB1_I{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -480,10 +627,13 @@ namespace Knv.MRLY240314
             //--- AB2_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB2_I{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -495,10 +645,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB2_I{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -513,10 +666,13 @@ namespace Knv.MRLY240314
             //--- AB3_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB3_I{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -528,10 +684,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB3_I{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -546,10 +705,13 @@ namespace Knv.MRLY240314
             //--- AB4_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB4_I{row + 1}",
                     CaseName = "Close",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.CloseLowLimit,
+                    HighLimit = Settings.Default.CloseHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -561,10 +723,13 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Cases.Add(new CaseItem()
+                Steps.Add(new stepItem()
                 {
                     RelayName = $"AB4_I{row + 1}",
                     CaseName = "Open",
+                    Unit = "OHM",
+                    LowLimit = Settings.Default.OpenLowLimit,
+                    HighLimit = Settings.Default.OpenHighLimit,
                     SwichedOnRelays = new List<E8287A>()
                     {
                         E8287aInfo.DiagInstr[row],
@@ -575,6 +740,72 @@ namespace Knv.MRLY240314
                     }
                 });
             }
+        }
+
+        public void Reset()
+        {
+            foreach (var item in Steps)
+            {
+                item.Measured = 0;
+                item.Executed = false;
+                _caseIndex = 0;
+            }
+        }
+
+        public stepItem NextStep()
+        {
+            stepItem retval = null;
+            if (_caseIndex < Steps.Count)
+            {
+                string realyChain = Steps[_caseIndex].GetStringOfRelayChain();
+                Steps[_caseIndex].Executed = true;
+                retval = Steps[_caseIndex];
+                _caseIndex++;
+            }
+            else
+            {
+                retval = null;
+            }
+
+            return retval;
+        }
+
+
+        public string MakeCsvReport(string directory, DateTime dt, string card_id, List<string> parameterLines)
+        {
+            var lines = new List<string>();
+            lines.Add($"Relay__Case;Measured;Unit;Low..High Limit;Result;Executed");
+            string result = "-";
+            foreach (var step in Steps)
+            {
+                if (step.Executed)
+                {
+                    if (step.LowLimit <= step.Measured && step.Measured <= step.HighLimit)
+                        result = "PASSED";
+                    else
+                        result = "FAILED";
+                }
+
+                if (step.Executed)
+                {
+                    lines.Add($"{step.RelayName}__{step.CaseName};{step.Measured:F3};{step.Unit};{step.LowLimit}..{step.HighLimit};{result};{step.Executed}");
+                }
+            }
+
+            lines.Add($"---END---");
+
+            lines.Add("---PARAMETERS---");
+            foreach (var paramLine in parameterLines)
+                lines.Add(paramLine);
+
+            if (!File.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            var fileName = $"{card_id}_{dt:yyyy}{dt:MM}{dt:dd}_{dt:HH}{dt:mm}{dt:ss}.csv";
+            using (var file = new StreamWriter($"{directory}\\{fileName}", true, Encoding.ASCII))
+                lines.ForEach(file.WriteLine);
+
+            return $"{directory}\\{fileName}\\{fileName}";
         }
     }
 }

@@ -17,9 +17,7 @@
         event EventHandler RunChainCheck;
         event EventHandler SetChain;
 
-        string Vout { get; set; }
-        string Iout { get; set; }
-        string MeasureTemperatureCelsius { get; set; }
+        bool AlwaysOnTop { get; set; }
 
         string Text { get; set; }
         ToolStripItem[] MenuBar { set; }
@@ -40,30 +38,18 @@
             set { menuStrip1.Items.AddRange(value); }
         }
 
-        public string Iout
-        {
-            get;
-            set;
-        }
-
-        public string Vout 
-        {
-            get;
-            set;
-        }
 
         public KnvTracingControl Tracing
         {
             get { return knvTracingControl1; }
         }
 
-
-
-        public string MeasureTemperatureCelsius
+        public bool AlwaysOnTop
         {
-            get;
-            set;
+            get { return this.TopMost; }
+            set { this.TopMost = value; }
         }
+
 
         public ToolStripItem[] StatusBar
         {

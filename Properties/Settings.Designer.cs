@@ -58,5 +58,101 @@ namespace Knv.MRLY240314.Properties {
                 this["ConnectOnStart"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlwaysOnTop {
+            get {
+                return ((bool)(this["AlwaysOnTop"]));
+            }
+            set {
+                this["AlwaysOnTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        public int MeasurementDelayTimeMs {
+            get {
+                return ((int)(this["MeasurementDelayTimeMs"]));
+            }
+            set {
+                this["MeasurementDelayTimeMs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        public float OpenLowLimit {
+            get {
+                return ((float)(this["OpenLowLimit"]));
+            }
+            set {
+                this["OpenLowLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public float OpenHighLimit {
+            get {
+                return ((float)(this["OpenHighLimit"]));
+            }
+            set {
+                this["OpenHighLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float CloseLowLimit {
+            get {
+                return ((float)(this["CloseLowLimit"]));
+            }
+            set {
+                this["CloseLowLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public float CloseHighLimit {
+            get {
+                return ((float)(this["CloseHighLimit"]));
+            }
+            set {
+                this["CloseHighLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("209")]
+        public float BypassResistorLowLimit {
+            get {
+                return ((float)(this["BypassResistorLowLimit"]));
+            }
+            set {
+                this["BypassResistorLowLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("231")]
+        public float BypassResistorHighLimit {
+            get {
+                return ((float)(this["BypassResistorHighLimit"]));
+            }
+            set {
+                this["BypassResistorHighLimit"] = value;
+            }
+        }
     }
 }
