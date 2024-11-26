@@ -15,7 +15,7 @@ namespace Knv.MRLY240314.UnitTest
         [Test]
         public void CaseItem_K8()
         { 
-            var ci = new stepItem()
+            var ci = new StepItem()
             {
                 SwichedOnRelays = new List<E8287A>
                 {
@@ -30,7 +30,7 @@ namespace Knv.MRLY240314.UnitTest
         [Test]
         public void CaseItem_RDG_R33()
         {
-            var ci = new stepItem()
+            var ci = new StepItem()
             {
                 SwichedOnRelays = new List<E8287A>
                 {
@@ -48,12 +48,12 @@ namespace Knv.MRLY240314.UnitTest
             var ct = new E8782A_CardTester();
             AutoResetEvent  are = new AutoResetEvent(false);
 
-            ct.MakeTestSteps();
+            ct.MakeSteps();
             var rnd = new Random();
 
             Action runAction = () =>
             {
-                stepItem ci;
+                StepItem ci;
                 while ((ci = ct.NextStep()) != null)
                 {
                     Console.WriteLine("Teszt Elek");

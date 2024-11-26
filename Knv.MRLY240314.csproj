@@ -66,6 +66,10 @@
     <Compile Include="Commands\RunCommand.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\DataGridView\DataGridViewExtensions.cs" />
+    <Compile Include="Controls\DataGridView\KnvDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="E8782A_CardTester.cs" />
     <Compile Include="Commands\ComPortSelectCommand.cs">
       <SubType>Component</SubType>
@@ -96,9 +100,14 @@
     <Compile Include="StatusBar\UpTime.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="StatusBar\Uid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StepsView.cs" />
     <Compile Include="UnitTest\E8782A_CardTester_UnitTest.cs" />
     <Compile Include="UnitTest\Relay_UnitTest.cs" />
     <Compile Include="UnitTest\Sample_UnitTest.cs" />
+    <Compile Include="StepViewItem.cs" />
     <Compile Include="View\HowIsWorkingForm.cs">
       <SubType>Form</SubType>
     </Compile>

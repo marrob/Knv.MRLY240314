@@ -12,7 +12,7 @@ namespace Knv.MRLY240314
     /// <summary>
     /// A rlékártyán lévő egy relé teszjének a lírása.
     /// </summary>
-    public class stepItem
+    public class StepItem
     {
 
         public string RelayName { get; set; }
@@ -76,11 +76,11 @@ namespace Knv.MRLY240314
 
     internal class E8782A_CardTester
     {
-        public List<stepItem> Steps  { get; set; }
+        public List<StepItem> Steps  { get; set; }
         public int _caseIndex = 0;
         public E8782A_CardTester()
         {
-             Steps = new List<stepItem>();
+             Steps = new List<StepItem>();
         }
 
         /// <summary>
@@ -88,11 +88,12 @@ namespace Knv.MRLY240314
         /// Alapvetően minden relét nyitott és zárt állásban tesztülnk
         /// Több relét is meg kell húzni egy relé teszteléséshez...
         /// </summary>
-        public void MakeTestSteps()
+        public void MakeSteps()
         {
+            Steps.Clear();
 
             //K1 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K1",
                 CaseName = "Close",
@@ -111,7 +112,7 @@ namespace Knv.MRLY240314
             });
 
             //K1 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K1",
                 CaseName = "Open",
@@ -129,7 +130,7 @@ namespace Knv.MRLY240314
             });
 
             //K2 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K2",
                 CaseName = "Close",
@@ -148,7 +149,7 @@ namespace Knv.MRLY240314
             });
 
             //K2 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K2",
                 CaseName = "Open",
@@ -166,7 +167,7 @@ namespace Knv.MRLY240314
             });
 
             //K3 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K3",
                 CaseName = "Close",
@@ -185,7 +186,7 @@ namespace Knv.MRLY240314
             });
 
             //K3 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K3",
                 CaseName = "Open",
@@ -203,7 +204,7 @@ namespace Knv.MRLY240314
             });
 
             //K4 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K4",
                 CaseName = "Close",
@@ -222,7 +223,7 @@ namespace Knv.MRLY240314
             });
 
             //K4 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K4",
                 CaseName = "Open",
@@ -241,7 +242,7 @@ namespace Knv.MRLY240314
 
 
             //K5 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K5",
                 CaseName = "Close",  
@@ -260,7 +261,7 @@ namespace Knv.MRLY240314
             });
 
             //K5 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K5",
                 CaseName = "Open",
@@ -278,7 +279,7 @@ namespace Knv.MRLY240314
             });
 
             //K6 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K6",
                 CaseName = "Close",
@@ -297,7 +298,7 @@ namespace Knv.MRLY240314
             });
 
             //K6 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K6",
                 CaseName = "Open",
@@ -315,7 +316,7 @@ namespace Knv.MRLY240314
             });
 
             //K7 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K7",
                 CaseName = "Close",
@@ -334,7 +335,7 @@ namespace Knv.MRLY240314
             });
 
             //K7 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K7",
                 CaseName = "Open",
@@ -352,7 +353,7 @@ namespace Knv.MRLY240314
             });
 
             //K8 - Close
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K8",
                 CaseName = "Close",
@@ -371,7 +372,7 @@ namespace Knv.MRLY240314
             });
 
             //K8 - Open
-            Steps.Add(new stepItem()
+            Steps.Add(new StepItem()
             {
                 RelayName = $"K8",
                 CaseName = "Open",
@@ -391,7 +392,7 @@ namespace Knv.MRLY240314
             //--- AB1_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB1_R{row + 1}",
                     CaseName = "Close",
@@ -409,7 +410,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB1_R{row + 1}",
                     CaseName = "Open",
@@ -430,7 +431,7 @@ namespace Knv.MRLY240314
             //--- AB2_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB2_R{row + 1}",
                     CaseName = "Close",
@@ -448,7 +449,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB2_R{row + 1}",
                     CaseName = "Open",
@@ -469,7 +470,7 @@ namespace Knv.MRLY240314
             //--- AB3_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB3_R{row + 1}",
                     CaseName = "Close",
@@ -487,7 +488,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB3_R{row + 1}",
                     CaseName = "Open",
@@ -508,7 +509,7 @@ namespace Knv.MRLY240314
             //--- AB4_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB4_R{row + 1}",
                     CaseName = "Close",
@@ -526,7 +527,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB4_R{row + 1}",
                     CaseName = "Open",
@@ -547,7 +548,7 @@ namespace Knv.MRLY240314
             //--- AUX_R 1..40 ---
             for (int row = 0; row < E8287aInfo.RowsCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AUX_R{row + 1}",
                     CaseName = "Close",
@@ -566,7 +567,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AUX_R{row + 1}",
                     CaseName = "Open",
@@ -588,7 +589,7 @@ namespace Knv.MRLY240314
             //--- AB1_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB1_I{row + 1}",
                     CaseName = "Close",
@@ -606,7 +607,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB1_I{row + 1}",
                     CaseName = "Open",
@@ -627,7 +628,7 @@ namespace Knv.MRLY240314
             //--- AB2_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB2_I{row + 1}",
                     CaseName = "Close",
@@ -645,7 +646,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB2_I{row + 1}",
                     CaseName = "Open",
@@ -666,7 +667,7 @@ namespace Knv.MRLY240314
             //--- AB3_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB3_I{row + 1}",
                     CaseName = "Close",
@@ -684,7 +685,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB3_I{row + 1}",
                     CaseName = "Open",
@@ -705,7 +706,7 @@ namespace Knv.MRLY240314
             //--- AB4_I 1..24 ---
             for (int row = 0; row < E8287aInfo.InstrCount; row++)
             {
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB4_I{row + 1}",
                     CaseName = "Close",
@@ -723,7 +724,7 @@ namespace Knv.MRLY240314
                     }
                 });
 
-                Steps.Add(new stepItem()
+                Steps.Add(new StepItem()
                 {
                     RelayName = $"AB4_I{row + 1}",
                     CaseName = "Open",
@@ -752,9 +753,9 @@ namespace Knv.MRLY240314
             }
         }
 
-        public stepItem NextStep()
+        public StepItem NextStep()
         {
-            stepItem retval = null;
+            StepItem retval = null;
             if (_caseIndex < Steps.Count)
             {
                 string realyChain = Steps[_caseIndex].GetStringOfRelayChain();
@@ -805,7 +806,7 @@ namespace Knv.MRLY240314
             using (var file = new StreamWriter($"{directory}\\{fileName}", true, Encoding.ASCII))
                 lines.ForEach(file.WriteLine);
 
-            return $"{directory}\\{fileName}\\{fileName}";
+            return $"{directory}\\{fileName}";
         }
     }
 }

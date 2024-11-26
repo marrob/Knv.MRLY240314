@@ -30,8 +30,6 @@ namespace Knv.MRLY240314
             new App();
         }
 
-
-
         class App:IApp
         {
             readonly IMainForm _mainForm;
@@ -45,6 +43,8 @@ namespace Knv.MRLY240314
             DateTime _startTimestamp;
             string _logFilePath;
 
+            StepsView _stepViews;
+
             public App()
             {
 
@@ -57,18 +57,54 @@ namespace Knv.MRLY240314
                 _worker.WorkerSupportsCancellation = true;
                 _autoResetEvent = new AutoResetEvent(false);
                 _cardTester = new E8782A_CardTester();
-                _cardTester.MakeTestSteps();
                 _stopwatch = new Stopwatch();
-               
-               
-
-                _mainForm.FpgaBypassChanged += (o, enabled) => Connection.Instance?.SetFpgaBypass(enabled);
+                _stepViews = new StepsView();
+              
                 Connection.Instance.TracingEnable = true;
-                Connection.Instance.ConnectionChanged += (o, e) => EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(Connection.Instance.IsOpen));
-                _mainForm.ReadFpgaRegisters += (o, e) => Connection.Instance.ReadRegisters();
+                Connection.Instance.ConnectionChanged += (o, e) =>
+                {
+                    
+                    bool isOpen = Connection.Instance.IsOpen;
+
+                    EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(isOpen));
+
+                    //--- ha sikerül a csatlakozás, akkor az FPGA transzparensé tesszük igy közvetlenül elérhető a relélánc ---
+                    if (isOpen)
+                    {
+                        Connection.Instance.SetFpgaBypass(true);
+
+                        //--- itt már él a kapcsolat és valószínüleg be tudjuk azonosítani a kártyát ---
+                        //--- Létrehozom a tesztek listáját ---
+                        _cardTester.MakeSteps();
+
+                        //--- Átmásolom a teszteket a View osztályba...---
+                        foreach (var step in _cardTester.Steps)
+                        {
+                            var stepView = new StepViewItem();
+                            stepView.StepItem = step;
+                            stepView.Name = $"{step.RelayName}__{step.CaseName}";
+                            stepView.Measured = "?";
+                            stepView.LowLimit = $"{step.LowLimit}";
+                            stepView.HighLimit = $"{step.HighLimit}";
+                            _stepViews.Add(stepView);
+                        }
+                    }
+                    else
+                    {
+                        _stepViews.Clear();
+                    }
+                };
+
+               
+                _mainForm.ReadFpgaRegisters += (o, e) =>
+                {
+                    Connection.Instance.SetFpgaBypass(false);
+                    Connection.Instance.ReadRegisters();
+                    Connection.Instance.SetFpgaBypass(true);
+                };
                 _mainForm.RunChainCheck += (o, e) => Connection.Instance?.RunChainCheck();
 
-                //*** Main Menu ***
+                //--- Main Menu ---
                 #region Main Menu
                 _mainForm.MenuBar = new ToolStripItem[]
                 {
@@ -82,13 +118,14 @@ namespace Knv.MRLY240314
                 };
                 #endregion
 
-                //*** StatusBar ***
+                //--- StatusBar ---
                 #region StatusBar
                 _mainForm.StatusBar = new ToolStripItem[]
                 {
                     new StatusBar.WhoIs(),
                     new StatusBar.FwVersion(),
                     new StatusBar.UpTime(),
+                    new StatusBar.Uid(),
                     new StatusBar.EmptyStatus(),
                     new StatusBar.Version(),
                     new StatusBar.Logo(),
@@ -96,38 +133,13 @@ namespace Knv.MRLY240314
                 #endregion
 
 
-                //*** Fuctions ****
-                long startUpdateRateTick = DateTime.Now.Ticks;
-                int responseCnt = 0;
-                int temp;
+                //--- A logolás Queue-ba történik, majd itt frissítem az UI-ra ---
                 _worker.DoWork += (o, e) =>
                 {
-                    do
-                    {
-                        try
-                        {
-                            if (Connection.Instance.IsOpen)
-                            {
-                                if (DateTime.Now.Ticks - startUpdateRateTick >= 1000 * 10000)
-                                {
-                                    temp = responseCnt;
-                                    _uiContext.Post(UiUpdate, null);
-                                    responseCnt = 0;
-                                    startUpdateRateTick = DateTime.Now.Ticks;
-                                }
-                                else
-                                {
-                                    responseCnt++;
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Read Error: {ex.Message}");
-                        }
-
-
-                        Thread.Sleep(100);
+                    do 
+                    { 
+                        _uiContext.Post(UiUpdate, null);
+                       Thread.Sleep(100);
 
                     } while (_worker.CancellationPending != true);
 
@@ -140,7 +152,7 @@ namespace Knv.MRLY240314
 
                 _worker.RunWorkerAsync();
 
-                //*** Run ***
+                //--- Run ---
                 Application.Run((MainForm)_mainForm);
             }
 
@@ -149,10 +161,17 @@ namespace Knv.MRLY240314
                 _mainForm.Tracing?.AppendText("User:Run");
                 _startTimestamp = DateTime.Now;
                 _cardTester.Reset();
+
+                foreach (var step in _stepViews)
+                {
+                    step.Result = "-";
+                    step.Measured = "-";
+                }
+
+
                 Action action = () => { ExecuteTheCaseItems(); };
                 action.BeginInvoke( new AsyncCallback(OnTestCompleted), null );
                 _stopwatch.Start();
-
             }
 
             void OnTestCompleted(IAsyncResult result)
@@ -160,20 +179,21 @@ namespace Knv.MRLY240314
                 _stopwatch.Stop();
 
                 double sec = _stopwatch.Elapsed.TotalSeconds;
+                string version = Connection.Instance.GetVersion();
+                string uid = Connection.Instance.UniqeId();
 
                 var parameterLines = new List<string>()
                 {
                     $"Start Timestamp:{_startTimestamp}",
                     $"Elapased Time: {sec:F3}",
-                 //   $"FW Version: {Connection.Instance.GetVersion()}",
-                 //   $"UID:{Connection.Instance.UniqeId()}" 
+                    $"FW Version: {version}",
+                    $"UID:{uid}" 
                 };
 
-                _logFilePath = _cardTester.MakeCsvReport(AppConstants.LogDirectory, _startTimestamp, "card_id", parameterLines);
+                _logFilePath = _cardTester.MakeCsvReport(AppConstants.LogDirectory, _startTimestamp, uid, parameterLines);
                 _stopwatch.Restart();
 
                 Connection.Instance.Trace($"Log Path: {_logFilePath}");
-
             }
 
             public void Stop()
@@ -185,16 +205,28 @@ namespace Knv.MRLY240314
 
             void ExecuteTheCaseItems()
             {
-                stepItem caseItem = null;
+                StepItem step = null;
                 try
                 {
-                    while ((caseItem = _cardTester.NextStep()) != null)
+                    //--- amig van teszt, addig nem null ---
+                    while ((step = _cardTester.NextStep()) != null)
                     {
                         if (Connection.Instance.IsOpen)
                         {
-                            Connection.Instance.SetChain(caseItem.GetStringOfRelayChain());
+                            Connection.Instance.SetChain(step.GetStringOfRelayChain());
                             Thread.Sleep(Settings.Default.MeasurementDelayTimeMs);
-                            caseItem.Measured = Connection.Instance.MeasureResistance();
+                            step.Measured = Connection.Instance.MeasureResistance();
+
+                            //--- Ez a rész CSAK a grid-es megjeleíntésért felelős... a riport külön értékel ---
+                            var viewItem = _stepViews.FirstOrDefault(i => i.StepItem == step);
+                            if (viewItem != null)
+                            {
+                                viewItem.Measured = $"{step.Measured:F3}";
+                                if (step.LowLimit <= step.Measured && step.Measured <= step.HighLimit)
+                                    viewItem.Result = "PASSED";
+                                else
+                                    viewItem.Result = "FAILED";
+                            }
                         }
 
                         if (_stopFlag)
@@ -212,7 +244,7 @@ namespace Knv.MRLY240314
 
             void UiUpdate(object response)
             {
-                //*** Tracing Update ***
+                //--- Tracing Update ---
                 for (int i = 0; Connection.Instance.TraceQueue.Count != 0; i++)
                 {
                     string str = Connection.Instance.TraceQueue.Dequeue();
@@ -222,14 +254,16 @@ namespace Knv.MRLY240314
 
             private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
             {
-
                 Settings.Default.Save();
             }
 
             private void MainForm_Shown(object sender, EventArgs e)
             {
                 EventAggregator.Instance.Publish(new ShowAppEvent());
-                //*** Auto connect ***
+
+                _mainForm.DataSource = _stepViews;
+
+                //--- Auto connect ---
                 if (Settings.Default.SeriaPortName != null)
                 {
                     if (Settings.Default.ConnectOnStart)

@@ -28,39 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
+           
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxFpgaBypass = new System.Windows.Forms.CheckBox();
-            this.buttonSetChain = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.buttonReadRegisters = new System.Windows.Forms.Button();
-            this.knvTracingControl1 = new Knv.MRLY240314.Controls.KnvTracingControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.knvDataGridView1 = new Knv.MRLY240314.Controls.KnvDataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.buttonReadRegisters = new System.Windows.Forms.Button();
+            this.buttonSetChain = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            knvTracingControl1 = new Knv.MRLY240314.Controls.KnvTracingControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.knvDataGridView1)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(983, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1094, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 479);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 671);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(983, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1094, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -77,38 +81,79 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.knvTracingControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(983, 455);
-            this.splitContainer1.SplitterDistance = 157;
+            this.splitContainer1.Panel2.Controls.Add(knvTracingControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(1094, 647);
+            this.splitContainer1.SplitterDistance = 448;
             this.splitContainer1.TabIndex = 2;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.tabControl1);
-            this.panel1.Controls.Add(this.checkBoxFpgaBypass);
-            this.panel1.Controls.Add(this.buttonSetChain);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.buttonReadRegisters);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(983, 157);
+            this.panel1.Size = new System.Drawing.Size(1094, 448);
             this.panel1.TabIndex = 0;
             // 
-            // checkBoxFpgaBypass
+            // tabControl1
             // 
-            this.checkBoxFpgaBypass.AutoSize = true;
-            this.checkBoxFpgaBypass.Location = new System.Drawing.Point(12, 12);
-            this.checkBoxFpgaBypass.Name = "checkBoxFpgaBypass";
-            this.checkBoxFpgaBypass.Size = new System.Drawing.Size(91, 17);
-            this.checkBoxFpgaBypass.TabIndex = 3;
-            this.checkBoxFpgaBypass.Text = "FPGA Bypass";
-            this.checkBoxFpgaBypass.UseVisualStyleBackColor = true;
-            this.checkBoxFpgaBypass.CheckedChanged += new System.EventHandler(this.checkBoxFpgaBypass_CheckedChanged);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1094, 448);
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.knvDataGridView1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1086, 422);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // knvDataGridView1
+            // 
+            this.knvDataGridView1.BackgroundText = "Itt lesz a tesztek listája miután azonosítottam a kártyát";
+            this.knvDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.knvDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.knvDataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.knvDataGridView1.Name = "knvDataGridView1";
+            this.knvDataGridView1.ReadOnly = true;
+            this.knvDataGridView1.Size = new System.Drawing.Size(1080, 416);
+            this.knvDataGridView1.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.buttonReadRegisters);
+            this.tabPage2.Controls.Add(this.buttonSetChain);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1086, 422);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // buttonReadRegisters
+            // 
+            this.buttonReadRegisters.Location = new System.Drawing.Point(6, 6);
+            this.buttonReadRegisters.Name = "buttonReadRegisters";
+            this.buttonReadRegisters.Size = new System.Drawing.Size(190, 23);
+            this.buttonReadRegisters.TabIndex = 0;
+            this.buttonReadRegisters.Text = "Read FPGA Register";
+            this.buttonReadRegisters.UseVisualStyleBackColor = true;
+            this.buttonReadRegisters.Click += new System.EventHandler(this.ReadRegisters_Click);
             // 
             // buttonSetChain
             // 
-            this.buttonSetChain.Location = new System.Drawing.Point(12, 103);
+            this.buttonSetChain.Location = new System.Drawing.Point(6, 64);
             this.buttonSetChain.Name = "buttonSetChain";
             this.buttonSetChain.Size = new System.Drawing.Size(190, 23);
             this.buttonSetChain.TabIndex = 2;
@@ -118,7 +163,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 74);
+            this.button1.Location = new System.Drawing.Point(6, 35);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(190, 23);
             this.button1.TabIndex = 1;
@@ -126,60 +171,20 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.ChainCheck_Click);
             // 
-            // buttonReadRegisters
-            // 
-            this.buttonReadRegisters.Location = new System.Drawing.Point(12, 45);
-            this.buttonReadRegisters.Name = "buttonReadRegisters";
-            this.buttonReadRegisters.Size = new System.Drawing.Size(190, 23);
-            this.buttonReadRegisters.TabIndex = 0;
-            this.buttonReadRegisters.Text = "Read FPGA Register";
-            this.buttonReadRegisters.UseVisualStyleBackColor = true;
-            this.buttonReadRegisters.Click += new System.EventHandler(this.ReadRegisters_Click);
-            // 
             // knvTracingControl1
             // 
-            this.knvTracingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.knvTracingControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.knvTracingControl1.Location = new System.Drawing.Point(0, 0);
-            this.knvTracingControl1.Name = "knvTracingControl1";
-            this.knvTracingControl1.Size = new System.Drawing.Size(983, 294);
-            this.knvTracingControl1.TabIndex = 0;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(273, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(640, 151);
-            this.tabControl1.TabIndex = 4;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(632, 125);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 74);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            knvTracingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            knvTracingControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            knvTracingControl1.Location = new System.Drawing.Point(0, 0);
+            knvTracingControl1.Name = "knvTracingControl1";
+            knvTracingControl1.Size = new System.Drawing.Size(1094, 195);
+            knvTracingControl1.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 501);
+            this.ClientSize = new System.Drawing.Size(1094, 693);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -191,8 +196,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.knvDataGridView1)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,13 +212,13 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonReadRegisters;
-        private Controls.KnvTracingControl knvTracingControl1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonSetChain;
-        private System.Windows.Forms.CheckBox checkBoxFpgaBypass;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private Controls.KnvDataGridView knvDataGridView1;
+        Knv.MRLY240314.Controls.KnvTracingControl knvTracingControl1;
     }
 }
 

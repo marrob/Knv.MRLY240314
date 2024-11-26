@@ -24,7 +24,7 @@ namespace Knv.MRLY240314.UnitTest
             Assert.AreEqual("MRLY240314.FW", name);
             con.SetFpgaBypass(true);
 
-            tester.MakeTestSteps();
+            tester.MakeSteps();
 
             Console.WriteLine("Test Start");
 

@@ -49,12 +49,15 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMeasurementDelayTime)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(251, 248);
+            this.buttonOk.Location = new System.Drawing.Point(256, 254);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 0;
@@ -65,7 +68,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(332, 248);
+            this.buttonCancel.Location = new System.Drawing.Point(337, 254);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -94,7 +97,7 @@
             // 
             // numericUpDownMeasurementDelayTime
             // 
-            this.numericUpDownMeasurementDelayTime.Location = new System.Drawing.Point(175, 66);
+            this.numericUpDownMeasurementDelayTime.Location = new System.Drawing.Point(175, 68);
             this.numericUpDownMeasurementDelayTime.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -116,16 +119,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(73, 159);
+            this.label2.Location = new System.Drawing.Point(3, 40);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.Size = new System.Drawing.Size(112, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Close";
+            this.label2.Text = "IM02PNS Relay Close";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(249, 140);
+            this.label3.Location = new System.Drawing.Point(258, 21);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 8;
@@ -133,7 +136,7 @@
             // 
             // textBoxCloseLowLimit
             // 
-            this.textBoxCloseLowLimit.Location = new System.Drawing.Point(112, 156);
+            this.textBoxCloseLowLimit.Location = new System.Drawing.Point(121, 37);
             this.textBoxCloseLowLimit.Name = "textBoxCloseLowLimit";
             this.textBoxCloseLowLimit.Size = new System.Drawing.Size(100, 20);
             this.textBoxCloseLowLimit.TabIndex = 9;
@@ -141,7 +144,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(137, 140);
+            this.label4.Location = new System.Drawing.Point(146, 21);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(51, 13);
             this.label4.TabIndex = 10;
@@ -149,7 +152,7 @@
             // 
             // textBoxCloseHighLimit
             // 
-            this.textBoxCloseHighLimit.Location = new System.Drawing.Point(233, 156);
+            this.textBoxCloseHighLimit.Location = new System.Drawing.Point(242, 37);
             this.textBoxCloseHighLimit.Name = "textBoxCloseHighLimit";
             this.textBoxCloseHighLimit.Size = new System.Drawing.Size(100, 20);
             this.textBoxCloseHighLimit.TabIndex = 11;
@@ -157,22 +160,22 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(73, 185);
+            this.label5.Location = new System.Drawing.Point(3, 66);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(33, 13);
+            this.label5.Size = new System.Drawing.Size(112, 13);
             this.label5.TabIndex = 12;
-            this.label5.Text = "Open";
+            this.label5.Text = "IM02PNS Relay Open";
             // 
             // textBoxOpenLowLimit
             // 
-            this.textBoxOpenLowLimit.Location = new System.Drawing.Point(112, 182);
+            this.textBoxOpenLowLimit.Location = new System.Drawing.Point(121, 63);
             this.textBoxOpenLowLimit.Name = "textBoxOpenLowLimit";
             this.textBoxOpenLowLimit.Size = new System.Drawing.Size(100, 20);
             this.textBoxOpenLowLimit.TabIndex = 13;
             // 
             // textBoxOpenHighLimit
             // 
-            this.textBoxOpenHighLimit.Location = new System.Drawing.Point(233, 182);
+            this.textBoxOpenHighLimit.Location = new System.Drawing.Point(242, 63);
             this.textBoxOpenHighLimit.Name = "textBoxOpenHighLimit";
             this.textBoxOpenHighLimit.Size = new System.Drawing.Size(100, 20);
             this.textBoxOpenHighLimit.TabIndex = 14;
@@ -180,7 +183,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 211);
+            this.label6.Location = new System.Drawing.Point(33, 92);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(82, 13);
             this.label6.TabIndex = 15;
@@ -188,14 +191,14 @@
             // 
             // textBoxBypassResistorLowLimit
             // 
-            this.textBoxBypassResistorLowLimit.Location = new System.Drawing.Point(112, 208);
+            this.textBoxBypassResistorLowLimit.Location = new System.Drawing.Point(121, 89);
             this.textBoxBypassResistorLowLimit.Name = "textBoxBypassResistorLowLimit";
             this.textBoxBypassResistorLowLimit.Size = new System.Drawing.Size(100, 20);
             this.textBoxBypassResistorLowLimit.TabIndex = 16;
             // 
             // textBoxBypassResistorHighLimit
             // 
-            this.textBoxBypassResistorHighLimit.Location = new System.Drawing.Point(233, 208);
+            this.textBoxBypassResistorHighLimit.Location = new System.Drawing.Point(242, 89);
             this.textBoxBypassResistorHighLimit.Name = "textBoxBypassResistorHighLimit";
             this.textBoxBypassResistorHighLimit.Size = new System.Drawing.Size(100, 20);
             this.textBoxBypassResistorHighLimit.TabIndex = 17;
@@ -203,7 +206,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(339, 159);
+            this.label7.Location = new System.Drawing.Point(348, 40);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(34, 13);
             this.label7.TabIndex = 18;
@@ -212,7 +215,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(339, 185);
+            this.label8.Location = new System.Drawing.Point(348, 66);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(34, 13);
             this.label8.TabIndex = 19;
@@ -221,11 +224,45 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(339, 211);
+            this.label9.Location = new System.Drawing.Point(348, 92);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(34, 13);
             this.label9.TabIndex = 20;
             this.label9.Text = "Ohms";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.textBoxBypassResistorHighLimit);
+            this.groupBox1.Controls.Add(this.textBoxBypassResistorLowLimit);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.textBoxOpenHighLimit);
+            this.groupBox1.Controls.Add(this.textBoxOpenLowLimit);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.textBoxCloseHighLimit);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.textBoxCloseLowLimit);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(10, 92);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(402, 156);
+            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Test Limits";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ForeColor = System.Drawing.Color.Red;
+            this.label10.Location = new System.Drawing.Point(131, 121);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(180, 13);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "After modofication please reconnect!";
             // 
             // SettingsForm
             // 
@@ -233,21 +270,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(419, 286);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBoxBypassResistorHighLimit);
-            this.Controls.Add(this.textBoxBypassResistorLowLimit);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBoxOpenHighLimit);
-            this.Controls.Add(this.textBoxOpenLowLimit);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBoxCloseHighLimit);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBoxCloseLowLimit);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(429, 300);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownMeasurementDelayTime);
             this.Controls.Add(this.checkBoxConnectOnStart);
@@ -263,6 +287,8 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMeasurementDelayTime)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -290,5 +316,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label10;
     }
 }

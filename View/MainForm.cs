@@ -12,12 +12,13 @@
         event EventHandler Disposed;
         KnvTracingControl Tracing { get; }
 
-        event EventHandler<bool> FpgaBypassChanged;
         event EventHandler ReadFpgaRegisters;
         event EventHandler RunChainCheck;
         event EventHandler SetChain;
 
         bool AlwaysOnTop { get; set; }
+
+        object DataSource { get; set; } 
 
         string Text { get; set; }
         ToolStripItem[] MenuBar { set; }
@@ -26,18 +27,14 @@
 
     public partial class MainForm : Form , IMainForm
     {
-
-        
         public event EventHandler ReadFpgaRegisters;
         public event EventHandler RunChainCheck;
         public event EventHandler SetChain;
-        public event EventHandler<bool> FpgaBypassChanged;
 
         public ToolStripItem[] MenuBar
         {
             set { menuStrip1.Items.AddRange(value); }
         }
-
 
         public KnvTracingControl Tracing
         {
@@ -50,6 +47,11 @@
             set { this.TopMost = value; }
         }
 
+        public object DataSource
+        {
+            get { return knvDataGridView1.DataSource; }
+            set { knvDataGridView1.DataSource = value; }
+        }
 
         public ToolStripItem[] StatusBar
         {
@@ -59,6 +61,8 @@
         public MainForm()
         {
             InitializeComponent();
+
+            knvDataGridView1.KnvDoubleBuffered(true);
         }
 
         private void ReadRegisters_Click(object sender, EventArgs e)
@@ -74,11 +78,6 @@
         private void buttonSetChain_Click(object sender, EventArgs e)
         {
             SetChain.Invoke(this, EventArgs.Empty);
-        }
-
-        private void checkBoxFpgaBypass_CheckedChanged(object sender, EventArgs e)
-        {
-            FpgaBypassChanged?.Invoke(this, checkBoxFpgaBypass.Checked);
         }
     }
 }

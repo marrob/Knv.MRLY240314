@@ -3,15 +3,8 @@ namespace Knv.MRLY240314.IO
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.IO.Ports;
     using System.Globalization;
-    using System.ComponentModel;
-    using System.CodeDom.Compiler;
-    using static System.Windows.Forms.AxHost;
-
     public class Status
     {
         public UInt32 StatusCode { get; set; }
@@ -281,7 +274,7 @@ namespace Knv.MRLY240314.IO
         /// <returns>pl:20001E354D501320383252</returns>
         public string UniqeId()
         {
-            var resp = WriteRead("*UID?");
+            var resp = WriteRead("UID?");
             if (resp == null)
                 return "n/a";
             else
@@ -312,6 +305,14 @@ namespace Knv.MRLY240314.IO
                 return resp;
         }
 
+        /// <summary>
+        /// Az FPGA regiszterei olvashatóak. 
+        /// FIGYLEM: Olvasás előtt az FPGA bypass-t OFF-ra kell kapcsolni!
+        /// ToDo: ismert probléma, hogy az első olvasás rossz értéket ad...
+        /// Akkor jó az érték, ha 43-al kezdődik E8782A esetén 
+        /// pl: 430F8055F0AA0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        /// </summary>
+        /// <returns></returns>
         public string ReadRegisters()
         {
             return WriteRead("REG?");
@@ -322,29 +323,17 @@ namespace Knv.MRLY240314.IO
             return WriteRead("CHAIN:CHECK?");
         }
 
-        public string SetChain(byte[] buffer)
-        { 
-            byte[] tmp = new byte[55];
-
-            tmp[0] = 0x0A;
-
-            tmp[1] = 0x02;
-
-
-            //string chain_value = BitConverter.ToString(tmp).Replace("-", "");
-
-            string chain_value = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080";
-
-
-            return WriteRead($"CHAIN:SET {chain_value}");
-        
-        }
 
         public string SetChain(string hexastring)
         {
             return WriteRead($"CHAIN:SET {hexastring}");
         }
 
+        /// <summary>
+        /// Ha true, akkor az FPGA transzparens így közvetlenül írahtó a relélánc a uC-val
+        /// Ha false, akkor az FPGA regiszterei _csak_ olvashatóak (egyelőre)
+        /// </summary>
+        /// <param name="enable"></param>
         public void SetFpgaBypass(bool enable)
         {
 

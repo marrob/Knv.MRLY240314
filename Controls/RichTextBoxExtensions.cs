@@ -4,7 +4,6 @@ namespace Knv.MRLY240314.Controls
     using System;
     using System.Windows.Forms;
     using System.Drawing;
-    using System.Reflection;
 
     public static class RichTextBoxExtensions
     {

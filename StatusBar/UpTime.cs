@@ -6,6 +6,7 @@ namespace Knv.MRLY240314.StatusBar
     using System.Windows.Forms;
     using Properties;
     using IO;
+    using Knv.MRLY240314.Events;
 
     class UpTime : ToolStripStatusLabel
     { 
@@ -15,6 +16,8 @@ namespace Knv.MRLY240314.StatusBar
             BorderStyle = Border3DStyle.Etched;
             Size = new System.Drawing.Size(58, 19);
             Text = "UpTime Counter: " + AppConstants.ValueNotAvailable2;
+
+            /*
             Timer timer = new Timer();
             timer.Interval = 1000;
             timer.Start();
@@ -23,9 +26,18 @@ namespace Knv.MRLY240314.StatusBar
             {
                 if (Connection.Instance.IsOpen)
                 {
-                    //Text = "UpTime Counter: " + Connection.Instance.GetUpTime();
+                    Text = "UpTime Counter: " + Connection.Instance.GetUpTime();
                 }
             };
+            */
+
+            EventAggregator.Instance.Subscribe((Action<ConnectionChangedAppEvent>)(e =>
+            {
+                if (e.IsOpen)
+                    Text = "UpTime: " + Connection.Instance.GetUpTime();
+                else
+                    Text = AppConstants.ValueNotAvailable2;
+            }));
         }
     }
 }
