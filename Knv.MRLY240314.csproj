@@ -69,8 +69,8 @@
     <Compile Include="Commands\RunCommand.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\DataGridView\DataGridViewExtensions.cs" />
-    <Compile Include="Controls\DataGridView\KnvDataGridView.cs">
+    <Compile Include="Controls\DataGridViewExtensions.cs" />
+    <Compile Include="Controls\KnvDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="E8782A_CardTester.cs" />

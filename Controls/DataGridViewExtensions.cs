@@ -1,6 +1,4 @@
-﻿
-
-namespace Knv.MRLY240314.Controls
+﻿namespace Knv.MRLY240314.Controls
 {
     using System;
     using System.Reflection;
@@ -19,6 +17,5 @@ namespace Knv.MRLY240314.Controls
             PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
             pi.SetValue(dataGridView, setting, null);
         }
-
     }
 }

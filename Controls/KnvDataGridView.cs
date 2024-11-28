@@ -1,28 +1,16 @@
 ﻿
 namespace Knv.MRLY240314.Controls
 {
-    using System;
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
 
-
     public class KnvDataGridView : DataGridView
     {
-
-        #region Events Overrides
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnRowPrePaint(DataGridViewRowPrePaintEventArgs e)
         {
-            PaintHandlerForBackgoroundText(e);
-        }
-        #endregion
-
-
-        protected override void OnSizeChanged(EventArgs e)
-        {
-        
-            base.OnSizeChanged(e);
-            Refresh();
+            base.OnRowPrePaint(e);
+            RowPrePaintHandlerForZebraRows(e);
         }
 
         #region Background Text
@@ -60,6 +48,55 @@ namespace Knv.MRLY240314.Controls
                 Brush b = new SolidBrush(Color.Orange);
                 SizeF strSize = e.Graphics.MeasureString(_backgroundText, f);
                 e.Graphics.DrawString(_backgroundText, f, b, (width / 2) - (strSize.Width / 2), (height / 2) - strSize.Height / 2);
+            }
+        }
+        #endregion
+
+        #region Zebra Rows
+        /// <summary>
+        /// Zebra csikozás engedélyezése.
+        /// </summary>
+        [Category("KNV")]
+        [Description("Zebra csikozás engedélyezése.")]
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool ZebraRow
+        {
+            get { return _zebraRows; }
+            set
+            {
+                _zebraRows = value;
+                Refresh();
+            }
+        }
+        private bool _zebraRows = true;
+
+        [Category("KNV")]
+        public Color FirstZebraColor
+        {
+            get { return _firstZebraColor; }
+            set { _firstZebraColor = value; }
+        }
+
+        private Color _firstZebraColor = Color.Bisque;
+
+        [Category("KNV")]
+        public Color SecondZebraColor
+        {
+            get { return _secondZebraColor; }
+            set { _secondZebraColor = value; }
+        }
+        private Color _secondZebraColor = Color.White;
+
+        private void RowPrePaintHandlerForZebraRows(DataGridViewRowPrePaintEventArgs e)
+        {
+            if (_zebraRows)
+            {
+                var rowIndex = e.RowIndex;
+                if (rowIndex % 2 == 0)
+                    Rows[rowIndex].DefaultCellStyle.BackColor = _firstZebraColor;
+                else
+                    Rows[rowIndex].DefaultCellStyle.BackColor = _secondZebraColor;
             }
         }
         #endregion

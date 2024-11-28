@@ -94,6 +94,16 @@
 
             var result = knvDataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString().ToUpper().Trim();
 
+
+            if (result == "FAILED")
+                knvDataGridView1.Rows[e.RowIndex].Cells[2].Style.BackColor = Color.Red;
+            else
+            if (result == "PASSED")
+                knvDataGridView1.Rows[e.RowIndex].Cells[2].Style.BackColor = Color.LightGreen;
+
+            
+
+            /*
             if (result == "FAILED")
                 knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
             else
@@ -101,6 +111,7 @@
                 knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGreen;
             else
                 knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+            */
 
         }
     }

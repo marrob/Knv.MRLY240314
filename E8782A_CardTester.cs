@@ -44,7 +44,10 @@ namespace Knv.MRLY240314
         public string Unit { get; set; }
 
 
-
+        public StepItem()
+        {
+            SwichedOnRelays = new List<E8287A>();
+        }
 
         /// <summary>
         /// 55db relémeghatjó ic-van (TPIC) ezt kövzevelenül elérjük a hw-val
@@ -118,6 +121,160 @@ namespace Knv.MRLY240314
         public void MakeSteps()
         {
             Steps.Clear();
+
+
+            //L3_M4_HI
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"L3_M4_HI",
+                CaseName = "INST1 - AB4 - ROW8",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I1,
+                    E8287A.AB4_I1,
+                    E8287A.K8,
+                    E8287A.K4,
+                    E8287A.AB4_R8,
+                    E8287A.RDG_R8,
+                }
+            });
+
+            //L3_M4_LO
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"L3_M4_LO",
+                CaseName = "INST2 - AB3 - ROW10",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I2,
+                    E8287A.AB3_I2,
+                    E8287A.K7,
+                    E8287A.K3,
+                    E8287A.AB3_R10,
+                    E8287A.RDG_R10,
+                }
+            });
+
+            //M1_L2_HI
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"M1_L2_HI",
+                CaseName = "INST1 - AB2 - ROW1",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I1,
+                    E8287A.AB2_I1,
+                    E8287A.K6,
+                    E8287A.K2,
+                    E8287A.AB2_R11,
+                    E8287A.RDG_R11,
+                }
+            });
+
+            //M1_L2_LO
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"M1_L2_LO",
+                CaseName = "INST2 - AB1 - ROW2",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I2,
+                    E8287A.AB1_I2,
+                    E8287A.K5,
+                    E8287A.K1,
+                    E8287A.AB1_R2,
+                    E8287A.RDG_R2,
+                }
+            });
+
+            //M1_M2_HI
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"M1_M2_HI",
+                CaseName = "INST1 - AB2 - ROW3",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I1,
+                    E8287A.AB2_I1,
+                    E8287A.K6,
+                    E8287A.K2,
+                    E8287A.AB2_R3,
+                    E8287A.RDG_R3,
+                }
+            });
+
+            //M1_M2_LO
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"M1_M2_LO",
+                CaseName = "INST2 - AB1 - ROW2",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I3,
+                    E8287A.AB1_I3,
+                    E8287A.K5,
+                    E8287A.K1,
+                    E8287A.AB1_R2,
+                    E8287A.RDG_R2,
+                }
+            });
+
+            //M3_L3_HI
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"M3_L3_HI",
+                CaseName = "INST1 - AB2 - ROW8",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I1,
+                    E8287A.AB2_I1,
+                    E8287A.K6,
+                    E8287A.K2,
+                    E8287A.AB2_R8,
+                    E8287A.RDG_R8,
+                }
+            });
+
+            //M3_L3_LO
+            Steps.Add(new StepItem()
+            {
+                RelayName = $"M3_L3_LO",
+                CaseName = "INST2 - AB1 - ROW9",
+                Unit = "OHM",
+                LowLimit = Settings.Default.CloseLowLimit,
+                HighLimit = Settings.Default.CloseHighLimit,
+                SwichedOnRelays = new List<E8287A>()
+                {
+                    E8287A.RDG_I2,
+                    E8287A.AB1_I2,
+                    E8287A.K5,
+                    E8287A.K1,
+                    E8287A.AB1_R9,
+                    E8287A.RDG_R9,
+                }
+            });
+
 
             //K1 - Close
             Steps.Add(new StepItem()
