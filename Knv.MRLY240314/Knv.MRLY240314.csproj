@@ -6,7 +6,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1DE6C41A-B55D-4D93-B625-1F4426BFF1D0}</ProjectGuid>
+    <ProjectGuid>{C6B9281C-34D8-496A-9ED0-C9F444CDB30A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Knv.MRLY240314</RootNamespace>
     <AssemblyName>Knv.MRLY240314</AssemblyName>
