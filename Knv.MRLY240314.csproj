@@ -57,6 +57,9 @@
     <Compile Include="Commands\AlwaysOnTopCommand.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Commands\OpenLastReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Commands\StopCommand .cs">
       <SubType>Component</SubType>
     </Compile>
@@ -94,9 +97,19 @@
     <Compile Include="Events\ConnectionChangedAppEvent.cs" />
     <Compile Include="Events\EventAggregator.cs" />
     <Compile Include="Events\ShowAppEvent.cs" />
-    <Compile Include="Events\UpdatingStateChangedAppEvent.cs" />
+    <Compile Include="Events\TestCompletedAppEvent.cs" />
+    <Compile Include="Events\TestProgressAppEvent.cs" />
     <Compile Include="IO\Connection.cs" />
     <Compile Include="IO\Tools.cs" />
+    <Compile Include="StatusBar\ElapsedTimeStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StatusBar\TestResultStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StatusBar\TestProgressStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="StatusBar\UpTime.cs">
       <SubType>Component</SubType>
     </Compile>

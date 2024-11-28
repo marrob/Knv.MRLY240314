@@ -10,6 +10,6 @@ namespace Knv.MRLY240314
         public const string GenericTimestampFormat = "yyyy.MM.dd HH:mm:ss";
         public const string FileNameTimestampFormat = "yyMMdd_HHmmss";
         //c:\Users\Public\Documents\Knv.MRLY240314
-        public static string LogDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments)}\\{SoftwareTitle}";
+        public static string ReportDirectory = $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments)}\\{SoftwareTitle}";
     }
 }

@@ -1,6 +1,4 @@
-﻿
-
-namespace Knv.MRLY240314
+﻿namespace Knv.MRLY240314
 {
     using System;
     using System.Windows.Forms;
@@ -42,12 +40,10 @@ namespace Knv.MRLY240314
             bool _pauseFlag = false;
             DateTime _startTimestamp;
             string _logFilePath;
-
-            StepsView _stepViews;
+            StepsView _stepsView;
 
             public App()
             {
-
                 _mainForm = new MainForm();
                 _mainForm.Text = AppConstants.SoftwareTitle;
                 _mainForm.Shown += MainForm_Shown;
@@ -58,44 +54,40 @@ namespace Knv.MRLY240314
                 _autoResetEvent = new AutoResetEvent(false);
                 _cardTester = new E8782A_CardTester();
                 _stopwatch = new Stopwatch();
-                _stepViews = new StepsView();
+                _stepsView = new StepsView();
+
+                if(string.IsNullOrEmpty(Settings.Default.ReportDirectory))
+                    Settings.Default.ReportDirectory = AppConstants.ReportDirectory;
               
                 Connection.Instance.TracingEnable = true;
                 Connection.Instance.ConnectionChanged += (o, e) =>
                 {
-                    
                     bool isOpen = Connection.Instance.IsOpen;
-
                     EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(isOpen));
-
                     //--- ha sikerül a csatlakozás, akkor az FPGA transzparensé tesszük igy közvetlenül elérhető a relélánc ---
                     if (isOpen)
                     {
                         Connection.Instance.SetFpgaBypass(true);
-
                         //--- itt már él a kapcsolat és valószínüleg be tudjuk azonosítani a kártyát ---
                         //--- Létrehozom a tesztek listáját ---
                         _cardTester.MakeSteps();
-
                         //--- Átmásolom a teszteket a View osztályba...---
                         foreach (var step in _cardTester.Steps)
                         {
-                            var stepView = new StepViewItem();
-                            stepView.StepItem = step;
-                            stepView.Name = $"{step.RelayName}__{step.CaseName}";
-                            stepView.Measured = "?";
-                            stepView.LowLimit = $"{step.LowLimit}";
-                            stepView.HighLimit = $"{step.HighLimit}";
-                            _stepViews.Add(stepView);
+                            _stepsView.Add(new StepViewItem()
+                            {
+                                StepItem = step,
+                                Name = $"{step.RelayName}__{step.CaseName}",
+                                Measured = "?",
+                                LowLimit = $"{step.LowLimit}",
+                                HighLimit = $"{step.HighLimit}",
+                            });
                         }
                     }
                     else
-                    {
-                        _stepViews.Clear();
-                    }
+                        _stepsView.Clear();
                 };
 
-               
                 _mainForm.ReadFpgaRegisters += (o, e) =>
                 {
                     Connection.Instance.SetFpgaBypass(false);
@@ -110,11 +102,14 @@ namespace Knv.MRLY240314
                 {
                     new Commands.ComPortSelectCommand(),
                     new Commands.ConnectCommand(),
-                    new Commands.HowIsWorkingCommand(),
-                    new Commands.AlwaysOnTopCommand(_mainForm),
-                    new Commands.SettingsCommand(_mainForm),
                     new Commands.RunCommand(this),
-                    new Commands.StopCommand(this)
+                    new Commands.StopCommand(this),
+                    new Commands.OpenLastReport(),
+
+                    new Commands.SettingsCommand(_mainForm),
+                    new Commands.AlwaysOnTopCommand(_mainForm),
+                    new Commands.HowIsWorkingCommand(),
+
                 };
                 #endregion
 
@@ -126,6 +121,9 @@ namespace Knv.MRLY240314
                     new StatusBar.FwVersion(),
                     new StatusBar.UpTime(),
                     new StatusBar.Uid(),
+                    new StatusBar.TestProgressStatus(),
+                    new StatusBar.TestResultStatus(),
+                    new StatusBar.ElapsedTimeStatus(),
                     new StatusBar.EmptyStatus(),
                     new StatusBar.Version(),
                     new StatusBar.Logo(),
@@ -156,24 +154,37 @@ namespace Knv.MRLY240314
                 Application.Run((MainForm)_mainForm);
             }
 
+            /// <summary>
+            /// A teszt indítása
+            /// </summary>
             public void Run()
             {
                 _mainForm.Tracing?.AppendText("User:Run");
                 _startTimestamp = DateTime.Now;
                 _cardTester.Reset();
+                _stopFlag = false;
 
-                foreach (var step in _stepViews)
+                foreach (var step in _stepsView)
                 {
                     step.Result = "-";
                     step.Measured = "-";
                 }
 
-
                 Action action = () => { ExecuteTheCaseItems(); };
                 action.BeginInvoke( new AsyncCallback(OnTestCompleted), null );
                 _stopwatch.Start();
+
+                EventAggregator.Instance.Publish(new TestCompletedAppEvent()
+                {
+                    TestResult = "RUNNING",
+                });
+
             }
 
+            /// <summary>
+            /// A teszt végén lefut bármi is történik.
+            /// </summary>
+            /// <param name="result">nem használom...</param>
             void OnTestCompleted(IAsyncResult result)
             {
                 _stopwatch.Stop();
@@ -181,19 +192,51 @@ namespace Knv.MRLY240314
                 double sec = _stopwatch.Elapsed.TotalSeconds;
                 string version = Connection.Instance.GetVersion();
                 string uid = Connection.Instance.UniqeId();
+                var totalPassed = _cardTester.Steps.Count(i => i.Result == "PASSED");
+                var totalFailed = _cardTester.Steps.Count(i => i.Result == "FAILED");
+
+                //--- Ha nem szakitotta meg a tesztet a User és tesztek száma egyezik a PASSED számával, akkor PASSED a teszt eredménye ---
+                string testResult = "-";
+                if (!_stopFlag)
+                    testResult = (totalPassed == _cardTester.Steps.Count()) ? "PASSED" : "FAILED";
+                else
+                    testResult = "ABORT";
 
                 var parameterLines = new List<string>()
                 {
-                    $"Start Timestamp:{_startTimestamp}",
+                    $"Test Result: { testResult }",
+                    $"Total Steps: { _cardTester.Steps.Count() }",
+                    $"Total Passed: { totalPassed }",
+                    $"Total Failed: { totalFailed }",
+                    $"Start Timestamp: {_startTimestamp}",
                     $"Elapased Time: {sec:F3}",
+                    $"Measurement Delay Time:{Settings.Default.MeasurementDelayTimeMs}ms",
                     $"FW Version: {version}",
-                    $"UID:{uid}" 
+                    $"UID:{uid}"
                 };
 
-                _logFilePath = _cardTester.MakeCsvReport(AppConstants.LogDirectory, _startTimestamp, uid, parameterLines);
+                _logFilePath = _cardTester.MakeCsvReport(Settings.Default.ReportDirectory, _startTimestamp, uid, testResult, parameterLines);
                 _stopwatch.Restart();
 
                 Connection.Instance.Trace($"Log Path: {_logFilePath}");
+
+                Action syncMethod = () =>
+                {
+                    EventAggregator.Instance.Publish(new TestCompletedAppEvent()
+                    {
+                        TestResult = testResult,
+                        ElapsedTime = $"{sec:F3}",
+                        TotalSteps = $"{_cardTester.Steps.Count()}",
+                        TotalPassed = $"{totalPassed}",
+                        TotalFailed = $"{totalFailed}",
+                    });
+                };
+
+                if (_uiContext != null)
+                    _uiContext.Post((e1) => { syncMethod(); }, null);
+                else
+                    syncMethod();
+
             }
 
             public void Stop()
@@ -201,7 +244,6 @@ namespace Knv.MRLY240314
                 _mainForm.Tracing?.AppendText("User:Stop");
                 _stopFlag = true;
             }
-
 
             void ExecuteTheCaseItems()
             {
@@ -218,22 +260,16 @@ namespace Knv.MRLY240314
                             step.Measured = Connection.Instance.MeasureResistance();
 
                             //--- Ez a rész CSAK a grid-es megjeleíntésért felelős... a riport külön értékel ---
-                            var viewItem = _stepViews.FirstOrDefault(i => i.StepItem == step);
-                            if (viewItem != null)
+                            var stepView = _stepsView.FirstOrDefault(i => i.StepItem == step);
+                            if (stepView != null)
                             {
-                                viewItem.Measured = $"{step.Measured:F3}";
-                                if (step.LowLimit <= step.Measured && step.Measured <= step.HighLimit)
-                                    viewItem.Result = "PASSED";
-                                else
-                                    viewItem.Result = "FAILED";
+                                stepView.Measured = $"{step.Measured:F3}";
+                                stepView.Result = step.Result;
                             }
                         }
-
+                        //--- User megszakította a tesztet ---
                         if (_stopFlag)
-                        {
-                            _stopFlag = false;
                             break;
-                        }
                     }
                 }
                 catch (Exception ex) 
@@ -242,13 +278,27 @@ namespace Knv.MRLY240314
                 } 
             }
 
-            void UiUpdate(object response)
+            /// <summary>
+            /// Az Ui frissjtés már az Ui szálon
+            /// </summary>
+            void UiUpdate(object something)
             {
+                //--- időközönként ráfrisssitek a Grid-re hogy látszódjanak a beírt értékek... biztos van jobb megoldás is ---
+                _mainForm.GridRefresh();
+
+                //--- időközönként elküldöm az ui-ra hogy hol jár a teszt ---
+                EventAggregator.Instance.Publish(new TestProgressAppEvent()
+                {
+                    TotalSteps = $"{_cardTester.Steps.Count}",
+                    CurrentStepIndex = $"{_cardTester.GetCurrentTestPointer}"
+                });
+
                 //--- Tracing Update ---
                 for (int i = 0; Connection.Instance.TraceQueue.Count != 0; i++)
                 {
                     string str = Connection.Instance.TraceQueue.Dequeue();
                     _mainForm.Tracing?.AppendText(str);
+                   
                 }
             }
 
@@ -261,7 +311,7 @@ namespace Knv.MRLY240314
             {
                 EventAggregator.Instance.Publish(new ShowAppEvent());
 
-                _mainForm.DataSource = _stepViews;
+                _mainForm.DataSource = _stepsView;
 
                 //--- Auto connect ---
                 if (Settings.Default.SeriaPortName != null)

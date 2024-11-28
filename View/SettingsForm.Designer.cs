@@ -51,13 +51,17 @@
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.textBoxReportDirectory = new System.Windows.Forms.TextBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.button1 = new System.Windows.Forms.Button();
+            this.buttonReportDirectory = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMeasurementDelayTime)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(256, 254);
+            this.buttonOk.Location = new System.Drawing.Point(505, 355);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 0;
@@ -68,7 +72,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(337, 254);
+            this.buttonCancel.Location = new System.Drawing.Point(597, 355);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -264,13 +268,42 @@
             this.label10.TabIndex = 21;
             this.label10.Text = "After modofication please reconnect!";
             // 
+            // textBoxReportDirectory
+            // 
+            this.textBoxReportDirectory.Location = new System.Drawing.Point(10, 294);
+            this.textBoxReportDirectory.Name = "textBoxReportDirectory";
+            this.textBoxReportDirectory.Size = new System.Drawing.Size(662, 20);
+            this.textBoxReportDirectory.TabIndex = 22;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // buttonReportDirectory
+            // 
+            this.buttonReportDirectory.Location = new System.Drawing.Point(10, 265);
+            this.buttonReportDirectory.Name = "buttonReportDirectory";
+            this.buttonReportDirectory.Size = new System.Drawing.Size(159, 23);
+            this.buttonReportDirectory.TabIndex = 24;
+            this.buttonReportDirectory.Text = "Browse Report Directory";
+            this.buttonReportDirectory.UseVisualStyleBackColor = true;
+            this.buttonReportDirectory.Click += new System.EventHandler(this.buttonReportDirectory_Click);
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(429, 300);
+            this.ClientSize = new System.Drawing.Size(684, 390);
+            this.Controls.Add(this.buttonReportDirectory);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBoxReportDirectory);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownMeasurementDelayTime);
@@ -318,5 +351,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBoxReportDirectory;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonReportDirectory;
     }
 }

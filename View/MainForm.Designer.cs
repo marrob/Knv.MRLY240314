@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-           
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -40,7 +39,7 @@
             this.buttonReadRegisters = new System.Windows.Forms.Button();
             this.buttonSetChain = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            knvTracingControl1 = new Knv.MRLY240314.Controls.KnvTracingControl();
+            this.knvTracingControl1 = new Knv.MRLY240314.Controls.KnvTracingControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,7 +80,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(knvTracingControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.knvTracingControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1094, 647);
             this.splitContainer1.SplitterDistance = 448;
             this.splitContainer1.TabIndex = 2;
@@ -114,7 +113,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1086, 422);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Steps";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // knvDataGridView1
@@ -127,6 +126,7 @@
             this.knvDataGridView1.ReadOnly = true;
             this.knvDataGridView1.Size = new System.Drawing.Size(1080, 416);
             this.knvDataGridView1.TabIndex = 0;
+            this.knvDataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.knvDataGridView1_RowPrePaint);
             // 
             // tabPage2
             // 
@@ -138,7 +138,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1086, 422);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Functions";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // buttonReadRegisters
@@ -153,12 +153,14 @@
             // 
             // buttonSetChain
             // 
+            this.buttonSetChain.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonSetChain.Cursor = System.Windows.Forms.Cursors.Default;
             this.buttonSetChain.Location = new System.Drawing.Point(6, 64);
             this.buttonSetChain.Name = "buttonSetChain";
             this.buttonSetChain.Size = new System.Drawing.Size(190, 23);
             this.buttonSetChain.TabIndex = 2;
             this.buttonSetChain.Text = "Set Chain";
-            this.buttonSetChain.UseVisualStyleBackColor = true;
+            this.buttonSetChain.UseVisualStyleBackColor = false;
             this.buttonSetChain.Click += new System.EventHandler(this.buttonSetChain_Click);
             // 
             // button1
@@ -173,12 +175,12 @@
             // 
             // knvTracingControl1
             // 
-            knvTracingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            knvTracingControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            knvTracingControl1.Location = new System.Drawing.Point(0, 0);
-            knvTracingControl1.Name = "knvTracingControl1";
-            knvTracingControl1.Size = new System.Drawing.Size(1094, 195);
-            knvTracingControl1.TabIndex = 0;
+            this.knvTracingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.knvTracingControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.knvTracingControl1.Location = new System.Drawing.Point(0, 0);
+            this.knvTracingControl1.Name = "knvTracingControl1";
+            this.knvTracingControl1.Size = new System.Drawing.Size(1094, 195);
+            this.knvTracingControl1.TabIndex = 0;
             // 
             // MainForm
             // 

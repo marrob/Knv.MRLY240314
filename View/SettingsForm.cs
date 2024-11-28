@@ -19,6 +19,8 @@ namespace Knv.MRLY240314.View
 
             checkBoxConnectOnStart.Checked = Settings.Default.ConnectOnStart;
 
+            textBoxReportDirectory.Text = Settings.Default.ReportDirectory;
+
 
             textBoxCloseLowLimit.Text = Settings.Default.CloseLowLimit.ToString();
             textBoxCloseLowLimit.TextChanged += (tb_sender, value) =>
@@ -87,14 +89,40 @@ namespace Knv.MRLY240314.View
 
             Settings.Default.MeasurementDelayTimeMs = (int)numericUpDownMeasurementDelayTime.Value;
             Settings.Default.ConnectOnStart = checkBoxConnectOnStart.Checked;
+            Settings.Default.ReportDirectory = textBoxReportDirectory.Text;
 
+            float temp;
 
-            if (float.TryParse(textBoxCloseLowLimit.Text, out float temp))
+            if (float.TryParse(textBoxCloseLowLimit.Text, out temp))
                 Settings.Default.CloseLowLimit = temp;
 
+            if (float.TryParse(textBoxCloseHighLimit.Text, out temp))
+                Settings.Default.CloseHighLimit = temp;
 
+            if (float.TryParse(textBoxOpenLowLimit.Text, out temp))
+                Settings.Default.OpenLowLimit = temp;
+
+            if (float.TryParse(textBoxOpenHighLimit.Text, out temp))
+                Settings.Default.OpenHighLimit = temp;
+
+            if (float.TryParse(textBoxBypassResistorLowLimit.Text, out temp))
+                Settings.Default.BypassResistorLowLimit = temp;
+
+            if (float.TryParse(textBoxBypassResistorHighLimit.Text, out temp))
+                Settings.Default.BypassResistorHighLimit = temp;
 
             DialogResult = DialogResult.OK;
+        }
+
+        private void buttonReportDirectory_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+            {
+                DialogResult result = folderBrowserDialog.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+                { textBoxReportDirectory.Text = folderBrowserDialog.SelectedPath; }
+
+            }
         }
     }
 }

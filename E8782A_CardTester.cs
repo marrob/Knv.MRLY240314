@@ -21,10 +21,30 @@ namespace Knv.MRLY240314
         public string Description { get; set; }
 
         public bool Executed { get; set; }
+        public string Result
+        {
+            get 
+            {
+                if (Executed)
+                {
+                    if (LowLimit <= Measured && Measured <= HighLimit)
+                        return "PASSED";
+                    else
+                       return "FAILED";
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
         public double LowLimit { get; set; }
         public double HighLimit { get; set; }
         public double Measured { get; set; }
         public string Unit { get; set; }
+
+
+
 
         /// <summary>
         /// 55db relémeghatjó ic-van (TPIC) ezt kövzevelenül elérjük a hw-val
@@ -77,6 +97,13 @@ namespace Knv.MRLY240314
     internal class E8782A_CardTester
     {
         public List<StepItem> Steps  { get; set; }
+        public int GetCurrentTestPointer
+        {
+            get
+            {
+                return _caseIndex;
+            }
+        }
         public int _caseIndex = 0;
         public E8782A_CardTester()
         {
@@ -743,6 +770,8 @@ namespace Knv.MRLY240314
             }
         }
 
+
+
         public void Reset()
         {
             foreach (var item in Steps)
@@ -771,28 +800,20 @@ namespace Knv.MRLY240314
             return retval;
         }
 
-
-        public string MakeCsvReport(string directory, DateTime dt, string card_id, List<string> parameterLines)
+        /// <summary>
+        /// CSV LOG készítése
+        /// </summary>
+        /// <param name="directory">Ide készül a log fájl</param>
+        /// <param name="dt">Log Startja</param>
+        /// <param name="card_id">A kártya egyedi azonosítója</param>
+        /// <param name="parameterLines">Ezt a részt hozzáfűzi a log végéhez </param>
+        /// <returns></returns>
+        public string MakeCsvReport(string directory, DateTime dt, string card_id, string test_result, List<string> parameterLines)
         {
             var lines = new List<string>();
             lines.Add($"Relay__Case;Measured;Unit;Low..High Limit;Result;Executed");
-            string result = "-";
             foreach (var step in Steps)
-            {
-                if (step.Executed)
-                {
-                    if (step.LowLimit <= step.Measured && step.Measured <= step.HighLimit)
-                        result = "PASSED";
-                    else
-                        result = "FAILED";
-                }
-
-                if (step.Executed)
-                {
-                    lines.Add($"{step.RelayName}__{step.CaseName};{step.Measured:F3};{step.Unit};{step.LowLimit}..{step.HighLimit};{result};{step.Executed}");
-                }
-            }
-
+               lines.Add($"{step.RelayName}__{step.CaseName};{step.Measured:F3};{step.Unit};{step.LowLimit}..{step.HighLimit};{step.Result};{step.Executed}");
             lines.Add($"---END---");
 
             lines.Add("---PARAMETERS---");
@@ -802,7 +823,7 @@ namespace Knv.MRLY240314
             if (!File.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            var fileName = $"{card_id}_{dt:yyyy}{dt:MM}{dt:dd}_{dt:HH}{dt:mm}{dt:ss}.csv";
+            var fileName = $"{card_id}_{dt:yyyy}{dt:MM}{dt:dd}_{dt:HH}{dt:mm}{dt:ss}_{test_result}.csv";
             using (var file = new StreamWriter($"{directory}\\{fileName}", true, Encoding.ASCII))
                 lines.ForEach(file.WriteLine);
 

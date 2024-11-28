@@ -3,6 +3,7 @@
     using System.Windows.Forms;
     using Controls;
     using System;
+    using System.Drawing;
 
     public interface IMainForm
     {
@@ -23,6 +24,8 @@
         string Text { get; set; }
         ToolStripItem[] MenuBar { set; }
         ToolStripItem[] StatusBar { set; }
+
+        void GridRefresh();
     }
 
     public partial class MainForm : Form , IMainForm
@@ -65,6 +68,11 @@
             knvDataGridView1.KnvDoubleBuffered(true);
         }
 
+        public void GridRefresh()
+        { 
+            knvDataGridView1.Refresh();
+        }
+
         private void ReadRegisters_Click(object sender, EventArgs e)
         {
             ReadFpgaRegisters.Invoke(this, EventArgs.Empty);
@@ -78,6 +86,22 @@
         private void buttonSetChain_Click(object sender, EventArgs e)
         {
             SetChain.Invoke(this, EventArgs.Empty);
+        }
+
+        private void knvDataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (knvDataGridView1.Rows[e.RowIndex].Cells[2].Value == null) return;
+
+            var result = knvDataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString().ToUpper().Trim();
+
+            if (result == "FAILED")
+                knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+            else
+            if (result == "PASSED")
+                knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGreen;
+            else
+                knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+
         }
     }
 }
