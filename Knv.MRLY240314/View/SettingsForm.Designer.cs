@@ -53,7 +53,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxReportDirectory = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.button1 = new System.Windows.Forms.Button();
             this.buttonReportDirectory = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMeasurementDelayTime)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -275,15 +274,6 @@
             this.textBoxReportDirectory.Size = new System.Drawing.Size(662, 20);
             this.textBoxReportDirectory.TabIndex = 22;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // buttonReportDirectory
             // 
             this.buttonReportDirectory.Location = new System.Drawing.Point(10, 265);
@@ -302,7 +292,6 @@
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(684, 390);
             this.Controls.Add(this.buttonReportDirectory);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxReportDirectory);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -353,7 +342,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxReportDirectory;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonReportDirectory;
     }
 }

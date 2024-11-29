@@ -18,7 +18,7 @@ namespace Knv.MRLY240314.Commands
         
         public OpenLastReport()
         {
-            Image = Resources.Settings_outline_48;
+            Image = Resources.Math_log_48;
             DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             Text = "Report by Npp";
             _lastReportPath = LastReportPath();
@@ -32,8 +32,6 @@ namespace Knv.MRLY240314.Commands
                 } ));
            
         }
-
-
         class PathWithDateTime
         {
             public DateTime DateTime { get; set; }
@@ -44,29 +42,38 @@ namespace Knv.MRLY240314.Commands
         {
             var pathWithDateTimes = new List<PathWithDateTime>();
 
-            //A könyvtárban található összes fájl bejárása
-            string[] files = Directory.GetFiles(Settings.Default.ReportDirectory);
-            string format = "yyyyMMdd_HHmmss";
-
-            //Formátuma: 666FF39384B513043112640_20241128_135318_FAILED.csv
-            foreach (string file in files)
+            if (Directory.Exists(Settings.Default.ReportDirectory))
             {
-                string[] items = file.Split(new char[] { '_' });
+                //A könyvtárban található összes fájl bejárása
+                string[] files = Directory.GetFiles(Settings.Default.ReportDirectory);
+                string format = "yyyyMMdd_HHmmss";
 
-                if (items.Count() == 4 && !string.IsNullOrEmpty(items[1]) && !string.IsNullOrEmpty(items[2]))
+                //Formátuma: 666FF39384B513043112640_20241128_135318_FAILED.csv
+                foreach (string file in files)
                 {
-                    var dateTimeString = $"{items[1]}_{items[2]}";
-                    if (DateTime.TryParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime))
+                    string[] items = file.Split(new char[] { '_' });
+
+                    if (items.Count() == 4 && !string.IsNullOrEmpty(items[1]) && !string.IsNullOrEmpty(items[2]))
                     {
-                        pathWithDateTimes.Add(new PathWithDateTime
+                        var dateTimeString = $"{items[1]}_{items[2]}";
+                        if (DateTime.TryParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime))
                         {
-                            DateTime = parsedDateTime,
-                            Path = file
-                        });
+                            pathWithDateTimes.Add(new PathWithDateTime
+                            {
+                                DateTime = parsedDateTime,
+                                Path = file
+                            });
+                        }
                     }
                 }
             }
-            return pathWithDateTimes.OrderByDescending(x => x.DateTime).FirstOrDefault().Path;
+
+
+            var pathWdate = pathWithDateTimes.OrderByDescending(x => x.DateTime).FirstOrDefault();
+            if (pathWdate != null)
+                return pathWdate.Path;
+            else
+                return string.Empty;
         }
 
         protected override void OnClick(EventArgs e)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -121,11 +122,14 @@
             this.knvDataGridView1.BackgroundText = "Itt lesz a tesztek listája miután azonosítottam a kártyát";
             this.knvDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.knvDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.knvDataGridView1.FirstZebraColor = System.Drawing.Color.Bisque;
             this.knvDataGridView1.Location = new System.Drawing.Point(3, 3);
             this.knvDataGridView1.Name = "knvDataGridView1";
             this.knvDataGridView1.ReadOnly = true;
+            this.knvDataGridView1.SecondZebraColor = System.Drawing.Color.White;
             this.knvDataGridView1.Size = new System.Drawing.Size(1080, 416);
             this.knvDataGridView1.TabIndex = 0;
+            this.knvDataGridView1.ZebraRow = true;
             this.knvDataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.knvDataGridView1_RowPrePaint);
             // 
             // tabPage2
@@ -190,6 +194,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Form1";

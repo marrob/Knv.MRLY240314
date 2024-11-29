@@ -5,6 +5,8 @@ namespace Knv.MRLY240314.IO
     using System.Collections.Generic;
     using System.IO.Ports;
     using System.Globalization;
+    using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+
     public class Status
     {
         public UInt32 StatusCode { get; set; }
@@ -58,7 +60,7 @@ namespace Knv.MRLY240314.IO
                 _sp = new SerialPort(port)
                 {
                     ReadTimeout = 1000,
-                    BaudRate = 19200,
+                    BaudRate = 115200,
                     NewLine = "\r"
                 };
                 _sp.Open();
@@ -141,7 +143,12 @@ namespace Knv.MRLY240314.IO
             {
                 if (_sp == null || !_sp.IsOpen)
                 {
-                    var msg = $"The {_sp.PortName} Serial Port is closed. Please open it.";
+                    string msg = string.Empty;
+
+                    if (_sp != null)
+                        msg = $"The {_sp.PortName} Serial Port is closed. Please open it.";
+                    else
+                        msg = "Serial Port is closed. Please open it.";
                     Trace(msg);
                     OnConnectionChanged();
                     throw new ApplicationException(msg);

@@ -11,6 +11,7 @@
     using System.Linq;
     using System.Diagnostics;
     using System.Collections.Generic;
+    using NUnit.Framework.Internal;
 
     public interface IApp
     {
@@ -44,62 +45,75 @@
 
             public App()
             {
-                _mainForm = new MainForm();
-                _mainForm.Text = AppConstants.SoftwareTitle;
-                _mainForm.Shown += MainForm_Shown;
-                _mainForm.FormClosed += MainForm_FormClosed;
-                _uiContext = SynchronizationContext.Current;
-                _worker = new BackgroundWorker();
-                _worker.WorkerSupportsCancellation = true;
-                _autoResetEvent = new AutoResetEvent(false);
-                _cardTester = new E8782A_CardTester();
-                _stopwatch = new Stopwatch();
-                _stepsView = new StepsView();
-
-                if(string.IsNullOrEmpty(Settings.Default.ReportDirectory))
-                    Settings.Default.ReportDirectory = AppConstants.ReportDirectory;
-              
-                Connection.Instance.TracingEnable = true;
-                Connection.Instance.ConnectionChanged += (o, e) =>
+                try
                 {
-                    bool isOpen = Connection.Instance.IsOpen;
-                    EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(isOpen));
-                    //--- ha sikerül a csatlakozás, akkor az FPGA transzparensé tesszük igy közvetlenül elérhető a relélánc ---
-                    if (isOpen)
+                    _mainForm = new MainForm();
+                    _mainForm.Text = AppConstants.SoftwareTitle;
+                    _mainForm.Shown += MainForm_Shown;
+                    _mainForm.FormClosed += MainForm_FormClosed;
+                    _uiContext = SynchronizationContext.Current;
+                    _worker = new BackgroundWorker();
+                    _worker.WorkerSupportsCancellation = true;
+                    _autoResetEvent = new AutoResetEvent(false);
+                    _cardTester = new E8782A_CardTester();
+                    _stopwatch = new Stopwatch();
+                    _stepsView = new StepsView();
+
+                    if (string.IsNullOrEmpty(Settings.Default.ReportDirectory))
+                        Settings.Default.ReportDirectory = AppConstants.ReportDirectory;
+
+                    Connection.Instance.TracingEnable = true;
+                    Connection.Instance.ConnectionChanged += (o, e) =>
                     {
-                        Connection.Instance.SetFpgaBypass(true);
-                        //--- itt már él a kapcsolat és valószínüleg be tudjuk azonosítani a kártyát ---
-                        //--- Létrehozom a tesztek listáját ---
-                        _cardTester.MakeSteps();
-                        //--- Átmásolom a teszteket a View osztályba...---
-                        foreach (var step in _cardTester.Steps)
+                        bool isOpen = Connection.Instance.IsOpen;
+                        EventAggregator.Instance.Publish(new ConnectionChangedAppEvent(isOpen));
+                        //--- ha sikerül a csatlakozás, akkor az FPGA transzparensé tesszük igy közvetlenül elérhető a relélánc ---
+                        if (isOpen)
                         {
-                            _stepsView.Add(new StepViewItem()
+                            Connection.Instance.SetFpgaBypass(true);
+                            //--- itt már él a kapcsolat és valószínüleg be tudjuk azonosítani a kártyát ---
+                            //--- Létrehozom a tesztek listáját ---
+                            _cardTester.MakeSteps();
+                            //--- Átmásolom a teszteket a View osztályba...---
+                            foreach (var step in _cardTester.Steps)
                             {
-                                StepItem = step,
-                                Name = $"{step.RelayName}__{step.CaseName}",
-                                Measured = "?",
-                                LowLimit = $"{step.LowLimit}",
-                                HighLimit = $"{step.HighLimit}",
-                            });
+                                _stepsView.Add(new StepViewItem()
+                                {
+                                    StepItem = step,
+                                    Name = $"{step.RelayName}__{step.CaseName}",
+                                    Measured = "?",
+                                    LowLimit = $"{step.LowLimit}",
+                                    HighLimit = $"{step.HighLimit}",
+                                });
+                            }
                         }
-                    }
-                    else
-                        _stepsView.Clear();
-                };
+                        else
+                        {
+                            Action syncMethod = () =>
+                            {  
+                                _stepsView.Clear();
+                            };
 
-                _mainForm.ReadFpgaRegisters += (o, e) =>
-                {
-                    Connection.Instance.SetFpgaBypass(false);
-                    Connection.Instance.ReadRegisters();
-                    Connection.Instance.SetFpgaBypass(true);
-                };
-                _mainForm.RunChainCheck += (o, e) => Connection.Instance?.RunChainCheck();
+                            if (_uiContext != null)
+                                _uiContext.Post((e1) => { syncMethod(); }, null);
+                            else
+                                syncMethod();
+                        }
+                          
+                    };
 
-                //--- Main Menu ---
-                #region Main Menu
-                _mainForm.MenuBar = new ToolStripItem[]
-                {
+                    _mainForm.ReadFpgaRegisters += (o, e) =>
+                    {
+                        Connection.Instance.SetFpgaBypass(false);
+                        Connection.Instance.ReadRegisters();
+                        Connection.Instance.SetFpgaBypass(true);
+                    };
+                    _mainForm.RunChainCheck += (o, e) => Connection.Instance?.RunChainCheck();
+
+                    //--- Main Menu ---
+                    #region Main Menu
+                    _mainForm.MenuBar = new ToolStripItem[]
+                    {
                     new Commands.ComPortSelectCommand(),
                     new Commands.ConnectCommand(),
                     new Commands.RunCommand(this),
@@ -110,13 +124,13 @@
                     new Commands.AlwaysOnTopCommand(_mainForm),
                     new Commands.HowIsWorkingCommand(),
 
-                };
-                #endregion
+                    };
+                    #endregion
 
-                //--- StatusBar ---
-                #region StatusBar
-                _mainForm.StatusBar = new ToolStripItem[]
-                {
+                    //--- StatusBar ---
+                    #region StatusBar
+                    _mainForm.StatusBar = new ToolStripItem[]
+                    {
                     new StatusBar.WhoIs(),
                     new StatusBar.FwVersion(),
                     new StatusBar.UpTime(),
@@ -127,31 +141,36 @@
                     new StatusBar.EmptyStatus(),
                     new StatusBar.Version(),
                     new StatusBar.Logo(),
-                };
-                #endregion
+                    };
+                    #endregion
 
 
-                //--- A logolás Queue-ba történik, majd itt frissítem az UI-ra ---
-                _worker.DoWork += (o, e) =>
-                {
-                    do 
-                    { 
-                        _uiContext.Post(UiUpdate, null);
-                       Thread.Sleep(100);
-
-                    } while (_worker.CancellationPending != true);
-
-                    if (_worker.CancellationPending)
+                    //--- A logolás Queue-ba történik, majd itt frissítem az UI-ra ---
+                    _worker.DoWork += (o, e) =>
                     {
-                        e.Cancel = true;
-                        _autoResetEvent.Set();
-                    }
-                };
+                        do
+                        {
+                            _uiContext.Post(UiUpdate, null);
+                            Thread.Sleep(100);
 
-                _worker.RunWorkerAsync();
+                        } while (_worker.CancellationPending != true);
 
-                //--- Run ---
-                Application.Run((MainForm)_mainForm);
+                        if (_worker.CancellationPending)
+                        {
+                            e.Cancel = true;
+                            _autoResetEvent.Set();
+                        }
+                    };
+
+                    _worker.RunWorkerAsync();
+
+                    //--- Run ---
+                    Application.Run((MainForm)_mainForm);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}\r\n{ex.StackTrace}", AppConstants.SoftwareTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             /// <summary>
@@ -159,6 +178,7 @@
             /// </summary>
             public void Run()
             {
+
                 _mainForm.Tracing?.AppendText("User:Run");
                 _startTimestamp = DateTime.Now;
                 _cardTester.Reset();
@@ -169,6 +189,8 @@
                     step.Result = "-";
                     step.Measured = "-";
                 }
+
+                _mainForm.GridRefresh();
 
                 Action action = () => { ExecuteTheCaseItems(); };
                 action.BeginInvoke( new AsyncCallback(OnTestCompleted), null );

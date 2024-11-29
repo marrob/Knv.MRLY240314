@@ -15,7 +15,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="MeasurementDelayTimeMs" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">250</Value>
+      <Value Profile="(Default)">20</Value>
     </Setting>
     <Setting Name="OpenLowLimit" Type="System.Single" Scope="User">
       <Value Profile="(Default)">250</Value>

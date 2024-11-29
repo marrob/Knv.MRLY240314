@@ -73,7 +73,7 @@ namespace Knv.MRLY240314.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
         public int MeasurementDelayTimeMs {
             get {
                 return ((int)(this["MeasurementDelayTimeMs"]));
